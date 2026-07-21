@@ -28,17 +28,13 @@ func _ready() -> void:
 	operations = ["up", "left", "right", "back"]
 	assign_faces()
 	
-	send_mesh_data(style)
+	send_mesh_data()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 ### MAIN FUNCTIONS ###
-
-# rotates the puzzle
-func rotate_puzzle(dir):
-	pass
 
 ### INSTANTIATION FUNCTIONS ###
 
@@ -54,7 +50,7 @@ func randomize_colors():
 	color_map = new_colors
 
 # generates mesh data for pieces and stickers and sends to generate_meshes()
-func send_mesh_data(style):
+func send_mesh_data():
 	# mesh data
 	var outer_plastic_data = faces.duplicate(true)
 	var inner_plastic_data = faces.duplicate(true)
@@ -297,22 +293,22 @@ func send_mesh_data(style):
 # assigns a dictionary to faces
 func assign_faces():
 	var face_names = ["front", "left", "right", "down"]
-	var colors = ["green", "red", "blue", "yellow"]
+	var color_names = ["green", "red", "blue", "yellow"]
 	
 	var normals = [FRONT_NORMAL, LEFT_NORMAL, RIGHT_NORMAL, DOWN_NORMAL]
 	
 	for i in len(face_names):
-		faces[face_names[i]] = {"color": colors[i], "normal": normals[i]}
+		faces[face_names[i]] = {"color": color_names[i], "normal": normals[i]}
 
 # gets the piece id of all triangles
 # based on where it traveled on the given face
 func get_piece_ids(ids):
 	var new_ids = []
 	for id in ids:
-		var faces = [id[0], id[2], id[4]]
+		var piece_faces = [id[0], id[2], id[4]]
 		var vals = [int(id[1]), int(id[3]), int(id[5])]
-		var inds = [faces.find("f"), faces.find("l"), faces.find("r"), faces.find("d")]
-		var dirs = [faces[inds[0]], faces[inds[1]], faces[inds[2]]]
+		var inds = [piece_faces.find("f"), piece_faces.find("l"), piece_faces.find("r"), piece_faces.find("d")]
+		var dirs = [piece_faces[inds[0]], piece_faces[inds[1]], piece_faces[inds[2]]]
 		var new_vals = [0, 0, 0]
 		var change_dirs = [["l", "m", "r"], ["u", "e", "d"], ["f", "s", "b"]]
 		#print(faces[inds[0]] + " " + faces[inds[1]] + " " + faces[inds[2]])

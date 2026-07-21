@@ -8,7 +8,7 @@ func _ready() -> void:
 	operations = ["up", "right", "left", "front", "rdown", "ldown"]
 	assign_faces()
 	
-	send_mesh_data(style)
+	send_mesh_data()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -49,7 +49,7 @@ func assign_faces():
 ### MESH GENERATION ###
 
 # generates mesh data for pieces and stickers and sends to generate_meshes()
-func send_mesh_data(style):
+func send_mesh_data():
 	var corners = {
 		"luf": Vector3() * (1.0/2.0 * size),
 		"ruf": Vector3() * (1.0/2.0 * size),

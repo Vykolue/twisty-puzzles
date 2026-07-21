@@ -34,8 +34,6 @@ region_rect = Rect2(21, 26, 42, 6)
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cof4p"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7dvkv"]
-
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_cgfq5"]
 
 [node name="UI" type="Control" unique_id=1764550213]
@@ -860,15 +858,16 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -69.0
-offset_top = -15.5
-offset_right = 69.0
-offset_bottom = 15.5
+offset_left = -94.0
+offset_top = -21.0
+offset_right = 94.0
+offset_bottom = 21.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 30
 text = "Connecting..."
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="Options Page" type="Control" parent="Archipelago" unique_id=1221607840]
 layout_mode = 1
@@ -1134,136 +1133,17 @@ theme_override_styles/focus = SubResource("StyleBoxEmpty_cof4p")
 icon = ExtResource("4_gdt2y")
 
 [node name="In_Game" type="Control" parent="." unique_id=1809782557]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -576.0
-offset_top = -324.0
-offset_right = 576.0
-offset_bottom = 324.0
 grow_horizontal = 2
 grow_vertical = 2
-
-[node name="Cube Rotations" type="Control" parent="In_Game" unique_id=795184295]
-visible = false
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="rotate_1" type="Button" parent="In_Game/Cube Rotations" unique_id=1937325769]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 715.0
-offset_top = 496.0
-offset_right = 765.0
-offset_bottom = 546.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 1.14296
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7dvkv")
-text = "->"
-
-[node name="rotate_2" type="Button" parent="In_Game/Cube Rotations" unique_id=199722550]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 362.0
-offset_top = 534.0
-offset_right = 412.0
-offset_bottom = 584.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -1.09508
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7dvkv")
-text = "<-"
-
-[node name="rotate_3" type="Button" parent="In_Game/Cube Rotations" unique_id=761928017]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 253.0
-offset_top = 254.0
-offset_right = 303.0
-offset_bottom = 304.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.194051
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7dvkv")
-text = "<-"
-
-[node name="rotate_4" type="Button" parent="In_Game/Cube Rotations" unique_id=1727259434]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 807.0
-offset_top = 262.0
-offset_right = 857.0
-offset_bottom = 312.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.411996
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7dvkv")
-text = "->"
-
-[node name="rotate_5" type="Button" parent="In_Game/Cube Rotations" unique_id=342426979]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 396.0
-offset_top = 22.0
-offset_right = 446.0
-offset_bottom = 72.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = 0.729229
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7dvkv")
-text = "<-"
-
-[node name="rotate_6" type="Button" parent="In_Game/Cube Rotations" unique_id=649530452]
-custom_minimum_size = Vector2(50, 50)
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 677.0
-offset_top = 48.0
-offset_right = 727.0
-offset_bottom = 98.0
-grow_horizontal = 2
-grow_vertical = 2
-rotation = -0.679693
-theme_override_styles/focus = SubResource("StyleBoxEmpty_7dvkv")
-text = "->"
+mouse_filter = 2
 
 [node name="Back" type="Button" parent="." unique_id=170049711]
-visible = false
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1312,11 +1192,5 @@ text = "Back"
 [connection signal="pressed" from="Archipelago/Options Page/Advanced Settings/Popup/Piece/Reset Piece" to="Archipelago" method="_on_reset_piece_pressed"]
 [connection signal="value_changed" from="Archipelago/Options Page/Advanced Settings/Popup/Sticker/Sticker Slider" to="Archipelago" method="_on_sticker_slider_value_changed"]
 [connection signal="pressed" from="Archipelago/Options Page/Advanced Settings/Popup/Sticker/Reset Sticker" to="Archipelago" method="_on_reset_sticker_pressed"]
-[connection signal="pressed" from="In_Game/Cube Rotations/rotate_1" to="." method="_on_rotate_1_pressed"]
-[connection signal="pressed" from="In_Game/Cube Rotations/rotate_2" to="." method="_on_rotate_2_pressed"]
-[connection signal="pressed" from="In_Game/Cube Rotations/rotate_3" to="." method="_on_rotate_3_pressed"]
-[connection signal="pressed" from="In_Game/Cube Rotations/rotate_4" to="." method="_on_rotate_4_pressed"]
-[connection signal="pressed" from="In_Game/Cube Rotations/rotate_5" to="." method="_on_rotate_5_pressed"]
-[connection signal="pressed" from="In_Game/Cube Rotations/rotate_6" to="." method="_on_rotate_6_pressed"]
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="Back" to="Archipelago" method="_on_back_pressed"]

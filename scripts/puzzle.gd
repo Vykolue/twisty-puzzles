@@ -2,44 +2,40 @@
 extends Node3D
 class_name Puzzle
 
-# The puzzle type and size
-@export var type : String
-@export var size : int
-@export var style : String
-@export var piece_scale : float
-@export var sticker_scale : float
+# The puzzle option variables
+@export var type: String
+@export var size: int
+@export var style: String
+@export var piece_scale: float
+@export var sticker_scale: float
 
 # A dictionary containing all faces and their corresponding colors and normal vectors
 # Syntax should be {String: {"color": String, "normal": Vector3}, ...}
 # Face normals should be the unit vector pointing to that face from the origin
-@export var faces : Dictionary[String, Variant]
+@export var faces: Dictionary[String, Variant]
 
 # Contains a list of all valid operations
 # Doesn't include wide, prime, double moves, etc.
-@export var operations : Array[String]
+@export var operations: Array[String]
 
-# Roots each have one child piece and are always centered on the origin
-# This is to allow pieces to rotate about the origin rather than their center axis
-var roots : Array[Node3D]
-var pieces : Array[Node3D]
+# Mesh data
+var plastic_mesh_data: Array[Variant]
+var sticker_mesh_data: Array[Variant]
 
-# mesh oblects
-var plastic_mesh_data
-var sticker_mesh_data
+# Mesh objects
+var plastic_mesh: MeshInstance3D
+var sticker_mesh: MeshInstance3D
 
-var plastic_mesh : MeshInstance3D
-var sticker_mesh : MeshInstance3D
-
-# dictionary of ids
-# each id lists the index of plastic_mesh and sticker_mesh respectively
-# that corresponds to a triangle of that mesh in the piece id
+# Dictionary of ids
+# Each id lists the index of plastic_mesh_data and sticker_mesh_data respectively
+# that corresponds to a triangle of that mesh in the piece
 # as well as what face the triangle is on
 # using "p" as the face for inner plastic portions of the mesh
-var id_dict_plastic
-var id_dict_stickers
+var id_dict_plastic: Dictionary[String, Variant]
+var id_dict_stickers: Dictionary[String, Variant]
 
-# The color value associated with each face
-var colors = {
+# The color value associated with that color
+var colors: Dictionary[String, Color] = {
 	"red": Color(0.71, 0.071, 0.071, 1.0), 
 	"orange": Color(1.0, 0.407, 0.11, 1.0), 
 	"blue": Color(0.211, 0.211, 0.81, 1.0), 
@@ -49,7 +45,9 @@ var colors = {
 	"plastic": Color(0.73, 0.73, 0.73, 1.0),
 	"unrevealed": Color(0.3, 0.0, 0.8, 1.0)
 }
-var color_map = {
+
+# Which face each color is mapped to
+var color_map: Dictionary[String, String] = {
 	"red": "red",
 	"orange": "orange",
 	"blue": "blue",
@@ -60,22 +58,19 @@ var color_map = {
 	"unrevealed": "unrevealed"
 }
 
+### DEFAULT FUNCTIONS ###
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	#SignalBus.rotate_puzzle.connect(rotate_puzzle)
 	pass
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
-### MAIN FUNCTIONS ###
+### OPERATION FUNCTIONS ###
 
-# rotates the puzzle
-@abstract func rotate_puzzle(dir)
-
-func rotate_pieces(axis : Vector3, ids_to_rotate : Array[String]):
+func rotate_pieces(axis: Vector3, ids_to_rotate: Array[String]) -> void:
 	var p_vertices = plastic_mesh_data[Mesh.ARRAY_VERTEX]
 	var s_vertices = sticker_mesh_data[Mesh.ARRAY_VERTEX]
 	for piece in ids_to_rotate:
@@ -88,26 +83,26 @@ func rotate_pieces(axis : Vector3, ids_to_rotate : Array[String]):
 			s_vertices[i] = s_vertices[i].rotated(axis, PI / 2.0)
 			regenerate_mesh(sticker_mesh_data, "stickers")
 
-### CONSTRUCTOR ###
+### CONSTRUCTORS ###
 
-func construct(size : int, random_colors : bool, style : String, piece_scale : float, sticker_scale : float) -> Puzzle:
-	self.size = size
-	self.style = style
-	self.piece_scale = piece_scale
-	self.sticker_scale = sticker_scale
+func construct_solo(args) -> Puzzle:
+	self.size = args["size"]
+	self.style = args["style"]
+	self.piece_scale = args["piece_scale"]
+	self.sticker_scale = args["sticker_scale"]
 	
-	if random_colors:
+	if args["randomize_colors"]:
 		randomize_colors()
 	
-	if style == "traditional":
+	if args["style"] == "traditional":
 		colors[color_map["plastic"]] = Color(0.05, 0.05, 0.05, 1.0)
 	else:
 		colors[color_map["plastic"]] = Color(0.65, 0.65, 0.65, 1.0)
 	
 	return self
 
-func construct_ap(args):
-	self.size = args["puzzle_size"]
+func construct_ap(args) -> Puzzle:
+	self.size = args["size"]
 	self.type = args["type"]
 	self.color_map = args["color_map"]
 	self.style = args["style"]
@@ -131,7 +126,7 @@ func construct_ap(args):
 
 # Generates meshes
 # Hides the visibility if specified
-func generate_meshes(data, mesh_type, hide_mesh=false):
+func generate_meshes(data, mesh_type, hide_mesh: bool = false):
 	var array_mesh = ArrayMesh.new()
 	var mesh_data = []
 	mesh_data.resize(Mesh.ARRAY_MAX)
@@ -172,18 +167,12 @@ func generate_meshes(data, mesh_type, hide_mesh=false):
 		sticker_mesh = shape
 
 # Sends mesh data to generate_meshes
-@abstract func send_mesh_data(style)
+@abstract func send_mesh_data()
 
 ### HELPER FUNCTIONS ###
 
-# Determines if a given position is on a given face
-# Tolerance is the minimum distance away from the origin the position must be
-# to be considered part of that face
-func has_face(face : String, pos : Vector3, tolerance : float):
-	return true
-
 # Returns the negative of the given vector
-func flip_vector(vector : Vector3):
+func flip_vector(vector: Vector3):
 	return Vector3(-vector.x, -vector.y, -vector.z)
 
 # Prints a list of directional constants for convenience
@@ -197,8 +186,8 @@ func print_directional_consts():
 
 # reformats data from get_piece_ids() into the final dictionary of ids
 # get_piece_ids() is defined individually for each puzzle type
-func reformat_ids(ids):
-	var new_ids = {}
+func reformat_ids(ids) -> Dictionary[String, Variant]:
+	var new_ids: Dictionary[String, Variant] = {}
 	for i in range(0, len(ids)):
 		var arr = ids[i]
 		var id = arr[0]

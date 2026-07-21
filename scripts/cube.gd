@@ -11,42 +11,18 @@ const BACK_NORMAL = Vector3(0.0, 0.0, -1.0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	SignalBus.rotate_puzzle.connect(rotate_puzzle)
-	
 	# define variables
 	type = "cube"
 	operations = ["up", "down", "left", "right", "front", "back"]
 	assign_faces()
 	
-	send_mesh_data(style)
+	send_mesh_data()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
 	pass
 
 ### MAIN FUNCTIONS ###
-
-# rotates the puzzle
-func rotate_puzzle(dir):
-	match dir:
-		"x":
-			plastic_mesh.rotate_x(PI / -2.0)
-			sticker_mesh.rotate_x(PI / -2.0)
-		"x'":
-			plastic_mesh.rotate_x(PI / 2.0)
-			sticker_mesh.rotate_x(PI / 2.0)
-		"y":
-			plastic_mesh.rotate_y(PI / -2.0)
-			sticker_mesh.rotate_y(PI / -2.0)
-		"y'":
-			plastic_mesh.rotate_y(PI / 2.0)
-			sticker_mesh.rotate_y(PI / 2.0)
-		"z":
-			plastic_mesh.rotate_z(PI / -2.0)
-			sticker_mesh.rotate_z(PI / -2.0)
-		"z'":
-			plastic_mesh.rotate_z(PI / 2.0)
-			sticker_mesh.rotate_z(PI / 2.0)
 
 ### INSTANTIATION FUNCTIONS ###
 
@@ -62,7 +38,7 @@ func randomize_colors():
 	color_map = new_colors
 
 # generates mesh data for pieces and stickers and sends to generate_meshes()
-func send_mesh_data(style):
+func send_mesh_data():
 	# mesh data
 	var outer_plastic_data = faces.duplicate(true)
 	var inner_plastic_data = faces.duplicate(true)
@@ -223,11 +199,11 @@ func send_mesh_data(style):
 					inner_plastic_ids.append(face[0] + str(j) + d1 + str(indices[i][0]) + d2 + str(indices[i][1]))
 					inner_plastic_ids.append(face[0] + str(j) + d1 + str(indices[i][0]) + d2 + str(indices[i][1]))
 	
-	var outer_i = outer_plastic_ids.duplicate(true)
+	#var outer_i = outer_plastic_ids.duplicate(true)
 	outer_plastic_ids = get_piece_ids(outer_plastic_ids)
-	var inner_i = inner_plastic_ids.duplicate(true)
+	#var inner_i = inner_plastic_ids.duplicate(true)
 	inner_plastic_ids = get_piece_ids(inner_plastic_ids)
-	var sticker_i = sticker_ids.duplicate(true)
+	#var sticker_i = sticker_ids.duplicate(true)
 	sticker_ids = get_piece_ids(sticker_ids)
 	
 	# merges outer_plastic_data and inner_plastic_data into a single dataset
@@ -291,24 +267,24 @@ func send_mesh_data(style):
 # assigns a dictionary to faces
 func assign_faces():
 	var face_names = ["up", "down", "left", "right", "front", "back"]
-	var colors = ["white", "yellow", "orange", "red", "green", "blue"]
+	var color_names = ["white", "yellow", "orange", "red", "green", "blue"]
 	
 	var normals = [UP_NORMAL, DOWN_NORMAL, LEFT_NORMAL, RIGHT_NORMAL, FRONT_NORMAL, BACK_NORMAL]
 	
 	for i in len(face_names):
-		faces[face_names[i]] = {"color": colors[i], "normal": normals[i]}
+		faces[face_names[i]] = {"color": color_names[i], "normal": normals[i]}
 
 # gets the piece id of all triangles
 # based on how far away it traveled from the given faces
 func get_piece_ids(ids):
 	var new_ids = []
-	var index = 0
-	var face = "none"
+	#var index = 0
+	#var face = "none"
 	for id in ids:
-		var faces = [id[0], id[2], id[4]]
+		var piece_faces = [id[0], id[2], id[4]]
 		var vals = [int(id[1]), int(id[3]), int(id[5])]
-		var inds = [max(faces.find("l"), faces.find("r")), max(faces.find("u"), faces.find("d")), max(faces.find("f"), faces.find("b"))]
-		var dirs = [faces[inds[0]], faces[inds[1]], faces[inds[2]]]
+		var inds = [max(piece_faces.find("l"), piece_faces.find("r")), max(piece_faces.find("u"), piece_faces.find("d")), max(piece_faces.find("f"), piece_faces.find("b"))]
+		var dirs = [piece_faces[inds[0]], piece_faces[inds[1]], piece_faces[inds[2]]]
 		var new_vals = [0, 0, 0]
 		var change_dirs = [["l", "m", "r"], ["u", "e", "d"], ["f", "s", "b"]]
 		#print(faces[inds[0]] + " " + faces[inds[1]] + " " + faces[inds[2]])

@@ -29,7 +29,7 @@ func camera_pan(delta: float) -> void:
 	'''
 
 func _input(event):
-	if (game.page == "in game" or game.page == "in ap game") and event is InputEventMouseMotion and is_clicking:
+	if (game.page == "in_solo_game" or game.page == "in_ap_game") and event is InputEventMouseMotion and is_clicking:
 		camera_pivot.rotate(Vector3.UP, -1 * event.relative.x / sensitivity)
 		'''
 		camera_pivot.rotate(Vector3.RIGHT, -1 * event.relative.y / sensitivity)

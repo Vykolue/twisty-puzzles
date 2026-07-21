@@ -177,7 +177,7 @@ func reformat_args():
 	args["min_stickers_to_goal"] = int(args[key])
 	args.erase(key)
 	args["seed_name"] = int(args["seed_name"])
-	args["puzzle_size"] = int(args["size_of_cube"])
+	args["size"] = int(args["size_of_cube"])
 	args.erase("size_of_cube")
 	reformat_colors()
 

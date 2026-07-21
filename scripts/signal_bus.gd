@@ -1,8 +1,10 @@
 extends Node
 
+### GLOBAL SIGNALS ###
+
 # Updates UI and starts the puzzle
-signal start(type, size, random_colors, style, piece_scale, sticker_scale)
-signal start_ap(args)
+signal start_solo(args: Dictionary[String, Variant])
+signal start_ap(args: Dictionary[String, Variant])
 
 # Returns to the home page
 signal back()
@@ -15,14 +17,11 @@ signal prompt_ap_connection()
 signal prompt_loading()
 signal prompt_ap_options()
 
-# rotates the cube
-signal rotate_puzzle(direction)
-
+### DEFAULT FUNCTIONS ###
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
