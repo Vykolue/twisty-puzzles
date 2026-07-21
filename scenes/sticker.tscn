@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://cxl7kimf7n1lq"]
+
+[ext_resource type="Script" uid="uid://d2pthyqkrqrlh" path="res://scripts/sticker.gd" id="1_mpens"]
+[ext_resource type="Shader" uid="uid://dg4hjynibmjrq" path="res://shaders/lenticular_sticker.gdshader" id="2_imf23"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0slot"]
+render_priority = 0
+shader = ExtResource("2_imf23")
+
+[sub_resource type="SphereMesh" id="SphereMesh_mpens"]
+material = SubResource("ShaderMaterial_0slot")
+
+[node name="Sticker" type="Node3D"]
+script = ExtResource("1_mpens")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+mesh = SubResource("SphereMesh_mpens")

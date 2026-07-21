@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://kk8slw7qqybs"]
+
+[ext_resource type="PackedScene" uid="uid://bs2cto5et6eqb" path="res://scenes/ui.tscn" id="1_uwrxv"]
+[ext_resource type="Script" uid="uid://cjjqddxpyvde0" path="res://scripts/game.gd" id="1_yqjtg"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_yqjtg"]
+
+[node name="Game" type="Node3D"]
+script = ExtResource("1_yqjtg")
+
+[node name="UI" parent="." instance=ExtResource("1_uwrxv")]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.283112, -0.525397, 0.802375, 0.174819, 0.850857, 0.49546, -0.94302, 0, 0.332737, 5.73028, 2.89363, -6.59152)
+light_color = Color(0.747, 0.83, 0.83, 1)
+light_energy = 0.664
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+visible = false
+mesh = SubResource("SphereMesh_yqjtg")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.829038, -0.266824, 0.491428, 0, 0.878817, 0.477159, -0.559193, -0.395583, 0.728572, 4.17622, 3.819, 6.72327)

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cqkn7bk5n670o"]
+
+[ext_resource type="Script" uid="uid://b37xt45n15dfp" path="res://scripts/pyraminx.gd" id="1_cddj8"]
+
+[node name="Pyraminx" type="Node3D"]
+script = ExtResource("1_cddj8")
+type = "\"pyraminx\""

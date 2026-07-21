@@ -1,0 +1,18 @@
+{
+	"array": [{
+		"tetrahedrons": [["top"]],
+		"octohedrons": []
+	},
+	{
+		"tetrahedrons": [["top", "down", "left"], ["top", "down", "right"], ["top", "down", "back"]],
+		"octohedrons": [["top", "down"]]
+	},
+	{
+		"tetrahedrons": [["top", "down", "left", "down", "left"], ["top", "down", "right", "down", "right"], ["top", "down", "back", "down", "back"], ["top", "down", "left", "down", "right"], ["top", "down", "right", "down", "back"], ["top", "down", "left", "down", "back"]],
+		"octohedrons": [["top", "down", "left", "down"], ["top", "down", "right", "down"], ["top", "down", "back", "down"]]
+	},
+	{
+		"tetrahedrons": [["top", "down", "left", "down", "left", "down", "left"], ["top", "down", "left", "down", "left", "down", "right"], ["top", "left", "back", "left", "back", "down", "back"], ["top", "down", "right", "down", "right", "down", "right"], ["top", "down", "right", "down", "right", "down", "left"], ["top", "down", "right", "down", "right", "down", "back"], ["top", "down", "back", "down", "back", "down", "back"], ["top", "down", "back", "down", "back", "down", "left"], ["top", "down", "back", "down", "back", "down", "right"]],
+		"octohedrons": [["top", "down", "left", "down", "left", "down"], ["top", "down", "right", "down", "right", "down"], ["top", "down", "back", "down", "back", "down"], ["top", "down", "left", "down", "right", "down"], ["top", "down", "right", "down", "back", "down"], ["top", "down", "left", "down", "back", "down"]]
+	}]
+}

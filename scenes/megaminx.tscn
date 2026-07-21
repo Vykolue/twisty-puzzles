@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsfbmp8qxrkcl"]
+
+[ext_resource type="Script" uid="uid://b07kdw6tnn751" path="res://scripts/megaminx.gd" id="1_lexum"]
+
+[node name="Megaminx" type="Node3D"]
+script = ExtResource("1_lexum")
