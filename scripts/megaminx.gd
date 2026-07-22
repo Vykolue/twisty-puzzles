@@ -4,12 +4,7 @@ extends Puzzle
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	# define variables
-	type = "megaminx"
 	operations = ["up", "right", "left", "front", "rdown", "ldown"]
-	assign_faces()
-	
-	send_mesh_data()
-
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -41,6 +36,9 @@ func assign_faces():
 	
 	for i in len(face_names):
 		faces[face_names[i]] = {"color": color_names[i], "normal": normals[i]}
+
+func get_piece_ids(ids):
+	return ids
 
 ### MESH GENERATION ###
 

@@ -84,37 +84,20 @@ func rotate_pieces(axis: Vector3, ids_to_rotate: Array[String]) -> void:
 			s_vertices[i] = s_vertices[i].rotated(axis, PI / 2.0)
 			regenerate_mesh(sticker_mesh_data, "stickers")
 
-### CONSTRUCTORS ###
+### CONSTRUCTOR ###
 
-# Constructs a solo game with the given arguments
-func construct_solo(args: Dictionary[String, Variant]) -> Puzzle:
-	self.size = args["size"]
-	self.style = args["style"]
-	self.piece_scale = args["piece_scale"]
-	self.sticker_scale = args["sticker_scale"]
-	
-	if args["randomize_colors"]:
-		randomize_colors()
-	
-	if args["style"] == "traditional":
-		colors[color_map["plastic"]] = Color(0.05, 0.05, 0.05, 1.0)
-	else:
-		colors[color_map["plastic"]] = Color(0.65, 0.65, 0.65, 1.0)
-	
-	return self
-
-# Constructs an archipelago game with the given arguments
-func construct_ap(args: Dictionary[String, Variant]) -> Puzzle:
+# Constructs a game with the given arguments
+func construct(args: Dictionary[String, Variant]) -> Puzzle:
 	self.size = args["size"]
 	self.type = args["type"]
-	print(self.color_map)
-	print(typeof(color_map))
-	print(args["color_map"])
-	print(typeof(args["color_map"]))
-	self.color_map = args["color_map"]
 	self.style = args["style"]
 	self.piece_scale = args["piece_scale"]
 	self.sticker_scale = args["sticker_scale"]
+	
+	if args["game_mode"] == "solo" and args["randomize_colors"]:
+		randomize_colors()
+	if args["game_mode"] == "ap":
+		self.color_map = args["color_map"]
 	
 	color_map["plastic"] = "plastic"
 	color_map["unrevealed"] = "unrevealed"
@@ -124,12 +107,17 @@ func construct_ap(args: Dictionary[String, Variant]) -> Puzzle:
 	else:
 		colors[color_map["plastic"]] = Color(0.65, 0.65, 0.65, 1.0)
 	
+	assign_faces()
+	send_mesh_data()
+	
 	return self
 
 ### INSTANTIATION FUNCTIONS ###
 
 # Randomizes color layout
 @abstract func randomize_colors() -> void
+
+@abstract func assign_faces() -> void
 
 # Generates meshes
 # Hides the visibility if specified
@@ -187,8 +175,10 @@ func print_directional_consts() -> void:
 	print("\"back\" (F face): " + str(Vector3.BACK))
 	print("\"forward\" (B face): " + str(Vector3.FORWARD))
 
-# reformats data from get_piece_ids() into the final dictionary of ids
-# get_piece_ids() is defined individually for each puzzle type
+# Gets the piece id of each triangle in the mesh
+@abstract func get_piece_ids(ids: Array[String]) -> Array[Variant]
+
+# Reformats data from get_piece_ids() into the final dictionary of ids
 func reformat_ids(ids) -> Dictionary[String, Variant]:
 	var new_ids: Dictionary[String, Variant] = {}
 	for i in range(0, len(ids)):
@@ -216,7 +206,7 @@ func _input(event: InputEvent) -> void:
 		#print("hi")
 		pass
 
-# regenerates the given mesh type using the new mesh data
+# Regenerates the given mesh type using the new mesh data
 func regenerate_mesh(mesh_data: Array[Variant], mesh_type: String) -> void:
 	var arr_mesh = ArrayMesh.new()
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_data)

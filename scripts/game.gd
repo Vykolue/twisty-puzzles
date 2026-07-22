@@ -71,6 +71,7 @@ func _process(_delta: float) -> void:
 func start_solo_game(args: Dictionary[String, Variant]) -> void:
 	# Sets navigation helper variables
 	page = "in_solo_game"
+	args["game_mode"] = "solo"
 	home_page.visible = false
 	archipelago_page.visible = false
 	game_page.visible = true
@@ -80,7 +81,7 @@ func start_solo_game(args: Dictionary[String, Variant]) -> void:
 		#camera.global_position = Vector3(15.0, 15.0, 15.0)
 		#camera.global_rotation = Vector3(-35.5, 45.0, 0.0)
 		camera.fov = 1.0 + (args["size"] * 4.0)
-		puzzle = CUBE.instantiate().construct_solo(args)
+		puzzle = CUBE.instantiate().construct(args)
 		add_child(puzzle)
 	
 	# Starts a pyraminx puzzle
@@ -89,19 +90,20 @@ func start_solo_game(args: Dictionary[String, Variant]) -> void:
 		#camera.global_rotation = Vector3(-35.3, 45.0, 0.0)
 		#camera.fov = 0.0 + (size * 1.6)
 		camera.fov = 1.0 + (args["size"] * 4.5)
-		puzzle = PYRAMINX.instantiate().construct_solo(args)
+		puzzle = PYRAMINX.instantiate().construct(args)
 		add_child(puzzle)
 		puzzle.rotate_y(-0.25)
 	
 	# Starts a megaminx puzzle
 	if args["type"] == "megaminx":
-		puzzle = MEGAMINX.instantiate().construct_solo(args)
+		puzzle = MEGAMINX.instantiate().construct(args)
 		add_child(puzzle)
 
 # Starts an archipelago game with the given arguments
 func start_ap_game(args: Dictionary[String, Variant]) -> void:
 	# Sets navigation helper variables
 	page = "in_ap_game"
+	args["game_mode"] = "ap"
 	home_page.visible = false
 	archipelago_page.visible = false
 	game_page.visible = true
@@ -111,7 +113,7 @@ func start_ap_game(args: Dictionary[String, Variant]) -> void:
 		#camera.global_position = Vector3(15.0, 15.0, 15.0)
 		#camera.global_rotation = Vector3(-35.5, 45.0, 0.0)
 		camera.fov = 1.0 + (args["size"] * 4.0)
-		puzzle = CUBE.instantiate().construct_ap(args)
+		puzzle = CUBE.instantiate().construct(args)
 		add_child(puzzle)
 	
 	# Starts a pyraminx puzzle
@@ -120,13 +122,13 @@ func start_ap_game(args: Dictionary[String, Variant]) -> void:
 		#camera.global_rotation = Vector3(-35.3, 45.0, 0.0)
 		#camera.fov = 0.0 + (size * 1.6)
 		camera.fov = 1.0 + (args["size"] * 4.5)
-		puzzle = PYRAMINX.instantiate().construct_ap(args)
+		puzzle = PYRAMINX.instantiate().construct(args)
 		add_child(puzzle)
 		puzzle.rotate_y(-0.25)
 	
 	# Starts a megaminx puzzle
 	if args["type"] == "megaminx":
-		puzzle = MEGAMINX.instantiate().construct_ap(args)
+		puzzle = MEGAMINX.instantiate().construct(args)
 		add_child(puzzle)
 
 ### NAVIGATION ###
