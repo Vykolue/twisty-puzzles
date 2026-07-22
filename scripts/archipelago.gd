@@ -1,8 +1,5 @@
 extends Control
 
-#var socket = WebSocketPeer.new()
-#var url = ""
-
 @onready var ui: Control = $".."
 @onready var connection_page: Control = $"Connection Page"
 @onready var loading_page: Control = $"Loading Page"
@@ -19,7 +16,7 @@ extends Control
 
 var connected = false
 var slot_data
-var args
+var args: Dictionary[String, Variant]
 
 const APStatus = Archipelago.APStatus
 
@@ -29,6 +26,8 @@ var timed_out = false
 var style = "traditional"
 var piece_scale
 var sticker_scale
+
+### DEFAULT FUNCTIONS ###
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -53,9 +52,8 @@ func _ready() -> void:
 	connection_timeout.timeout.connect(_on_connection_timeout)
 	add_child(connection_timeout)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	'''
 	if not connected and Archipelago.conn:
 		SignalBus.prompt_ap_options.emit()
@@ -67,6 +65,7 @@ func _process(delta: float) -> void:
 	'''
 	pass
 
+### NAVIGATION ###
 
 func _on_submit_pressed() -> void:
 	await get_tree().create_timer(0.01).timeout
@@ -78,35 +77,6 @@ func _on_submit_pressed() -> void:
 		Archipelago.ap_connect(ui.host, str(ui.port), ui.slot_name, ui.password)
 	else:
 		SignalBus.prompt_ap_options.emit()
-
-func _on_connected(conn: ConnectionInfo, json: Dictionary):
-	SignalBus.prompt_ap_options.emit()
-	connection_timeout.stop()
-	print("timer stopped")
-	
-	connection.text = "Connected to " + ui.host + ":" + str(ui.port)
-	slot_data = conn.slot_data
-	args = slot_data.duplicate(true)
-	reformat_args()
-
-
-func _on_advanced_settings_pressed() -> void:
-	popup.visible = true
-
-
-func _on_close_pressed() -> void:
-	popup.visible = false
-
-
-func _on_style_options_item_selected(index: int) -> void:
-	match index:
-		0:
-			style = "traditional"
-		1:
-			style = "transparent"
-		2:
-			style = "stickerless"
-
 
 func _on_start_pressed() -> void:
 	args["type"] = "cube"
@@ -129,32 +99,16 @@ func _on_back_pressed() -> void:
 		SignalBus.prompt_ap_connection.emit()
 '''
 
-func _on_piece_slider_value_changed(value: float) -> void:
-	piece_scale = value
-	piece_label.text = "Piece Scale: " + str("%.2f" % piece_scale)
+### ARCHIPELAGO CONNECTION ###
+
+func _on_connected(conn: ConnectionInfo, _json: Dictionary):
+	SignalBus.prompt_ap_options.emit()
+	connection_timeout.stop()
+	print("timer stopped")
 	
-	sticker_slider.max_value = piece_scale
-	if sticker_scale > piece_scale:
-		sticker_scale = piece_scale
-		sticker_label.text = "Sticker Scale: " + str("%.2f" % piece_scale)
-		sticker_slider.value = piece_scale
-
-
-func _on_sticker_slider_value_changed(value: float) -> void:
-	sticker_scale = value
-	sticker_label.text = "Sticker Scale: " + str("%.2f" % sticker_scale)
-
-
-func _on_reset_piece_pressed() -> void:
-	piece_scale = ui.default_piece_scale
-	piece_label.text = "Piece Scale: " + str("%.2f" % ui.default_piece_scale)
-	piece_slider.value = ui.default_piece_scale
-
-
-func _on_reset_sticker_pressed() -> void:
-	sticker_scale = ui.default_sticker_scale
-	sticker_label.text = "Sticker Scale: " + str("%.2f" % ui.default_sticker_scale)
-	sticker_slider.value = ui.default_sticker_scale
+	connection.text = "Connected to " + ui.host + ":" + str(ui.port)
+	slot_data = conn.slot_data
+	reformat_args()
 
 func _on_disconnected():
 	connection_timeout.stop()
@@ -170,23 +124,6 @@ func _on_disconnected():
 	else:
 		timed_out = false
 
-func reformat_args():
-	args["color_map"] = args["color_permutation"].duplicate(true)
-	args.erase("color_permutation")
-	var key = "minimum_stickers_unlocked_to_goal_when_solved"
-	args["min_stickers_to_goal"] = int(args[key])
-	args.erase(key)
-	args["seed_name"] = int(args["seed_name"])
-	args["size"] = int(args["size_of_cube"])
-	args.erase("size_of_cube")
-	reformat_colors()
-
-func reformat_colors():
-	var new_map = {}
-	for key in args["color_map"]:
-		new_map[key.to_lower()] = args["color_map"][key].to_lower()
-	args["color_map"] = new_map
-
 func _on_connection_timeout() -> void:
 	Archipelago.ap_disconnect()
 	
@@ -198,3 +135,70 @@ func _on_connection_timeout() -> void:
 	loading_label.text = "Connection timed out\nReturning to connection page"
 	await get_tree().create_timer(2).timeout
 	SignalBus.prompt_ap_connection.emit()
+
+### OPTION SETTINGS ###
+
+func _on_advanced_settings_pressed() -> void:
+	popup.visible = true
+
+func _on_close_pressed() -> void:
+	popup.visible = false
+
+func _on_style_options_item_selected(index: int) -> void:
+	match index:
+		0:
+			style = "traditional"
+		1:
+			style = "transparent"
+		2:
+			style = "stickerless"
+
+func _on_piece_slider_value_changed(value: float) -> void:
+	piece_scale = value
+	piece_label.text = "Piece Scale: " + str("%.2f" % piece_scale)
+	
+	sticker_slider.max_value = piece_scale
+	if sticker_scale > piece_scale:
+		sticker_scale = piece_scale
+		sticker_label.text = "Sticker Scale: " + str("%.2f" % piece_scale)
+		sticker_slider.value = piece_scale
+
+func _on_sticker_slider_value_changed(value: float) -> void:
+	sticker_scale = value
+	sticker_label.text = "Sticker Scale: " + str("%.2f" % sticker_scale)
+
+### RESET TO DEFAULT VALUES ###
+
+func _on_reset_piece_pressed() -> void:
+	piece_scale = ui.default_piece_scale
+	piece_label.text = "Piece Scale: " + str("%.2f" % ui.default_piece_scale)
+	piece_slider.value = ui.default_piece_scale
+
+func _on_reset_sticker_pressed() -> void:
+	sticker_scale = ui.default_sticker_scale
+	sticker_label.text = "Sticker Scale: " + str("%.2f" % ui.default_sticker_scale)
+	sticker_slider.value = ui.default_sticker_scale
+
+### REFORMATS APWORLD DATA ###
+
+func reformat_args() -> void:
+	for key in slot_data:
+		args[key] = slot_data[key]
+	
+	args["color_map"] = args["color_permutation"].duplicate(true)
+	args.erase("color_permutation")
+	var key = "minimum_stickers_unlocked_to_goal_when_solved"
+	args["min_stickers_to_goal"] = int(args[key])
+	args.erase(key)
+	args["seed_name"] = int(args["seed_name"])
+	args["size"] = int(args["size_of_cube"])
+	args.erase("size_of_cube")
+	reformat_colors()
+
+func reformat_colors():
+	var new_map: Dictionary[String, String] = {}
+	for key in args["color_map"]:
+		new_map[key.to_lower()] = args["color_map"][key].to_lower()
+	new_map["plastic"] = "plastic"
+	new_map["unrevealed"] = "unrevealed"
+	args["color_map"] = new_map

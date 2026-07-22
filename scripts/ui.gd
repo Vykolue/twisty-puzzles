@@ -76,7 +76,7 @@ func _ready() -> void:
 	settings_popup.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 ### PUZZLE TYPES ###
@@ -286,7 +286,7 @@ func reset_piece_scale() -> void:
 
 func reset_sticker_scale() -> void:
 	args["sticker_scale"] = default_sticker_scale
-	sticker_label.text = "Sticker Scale: "+ str("%.2f" % default_piece_scale)
+	sticker_label.text = "Sticker Scale: "+ str("%.2f" % default_sticker_scale)
 	sticker_slider.value = default_sticker_scale
 
 ### HELPER FUNCITONS ###

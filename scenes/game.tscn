@@ -1,43 +1,46 @@
-[gd_scene load_steps=5 format=3 uid="uid://kk8slw7qqybs"]
+[gd_scene format=3 uid="uid://kk8slw7qqybs"]
 
 [ext_resource type="PackedScene" uid="uid://bs2cto5et6eqb" path="res://scenes/ui.tscn" id="1_uwrxv"]
 [ext_resource type="Script" uid="uid://cjjqddxpyvde0" path="res://scripts/game.gd" id="1_yqjtg"]
 [ext_resource type="ArrayMesh" uid="uid://bdqh2onpxp7nu" path="res://assets/pieces/pyramid_piece.obj" id="3_lnu2h"]
 [ext_resource type="Script" uid="uid://bqscglq0y5gc" path="res://scripts/camera.gd" id="4_lbhrr"]
 
-[node name="Game" type="Node3D"]
+[node name="Game" type="Node3D" unique_id=1763570420]
 script = ExtResource("1_yqjtg")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=149553506]
 visible = false
 mesh = ExtResource("3_lnu2h")
 
-[node name="UI" parent="." instance=ExtResource("1_uwrxv")]
+[node name="UI" parent="." unique_id=1600452025 instance=ExtResource("1_uwrxv")]
 visible = false
 
-[node name="CameraPivot" type="Node3D" parent="."]
+[node name="CameraPivot" type="Node3D" parent="." unique_id=617801609]
 
-[node name="Camera" type="Camera3D" parent="CameraPivot"]
+[node name="Camera" type="Camera3D" parent="CameraPivot" unique_id=49967147]
 transform = Transform3D(0.707107, -0.410619, 0.575667, 0, 0.814116, 0.580703, -0.707107, -0.410619, 0.575667, 15, 15, 15)
 fov = 8.0
 script = ExtResource("4_lbhrr")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CameraPivot"]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="CameraPivot" unique_id=165019643]
 transform = Transform3D(0.283112, -0.525397, 0.802375, 0.174819, 0.850857, 0.49546, -0.94302, -2.24833e-07, 0.332737, 5.73028, 2.89363, -6.59152)
+visible = false
 light_color = Color(0.747, 0.83, 0.83, 1)
 light_energy = 0.664
 
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="CameraPivot"]
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="CameraPivot" unique_id=190161801]
 transform = Transform3D(0.50896, -0.384893, -0.769946, 0.860599, 0.246379, 0.445721, 0.0181439, -0.889469, 0.456636, -5, 5, 3.86566)
+visible = false
 light_color = Color(0.775903, 0.835695, 0.927454, 1)
 light_energy = 0.25
 
-[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="CameraPivot"]
+[node name="DirectionalLight3D3" type="DirectionalLight3D" parent="CameraPivot" unique_id=872268940]
 transform = Transform3D(1, 0, 0, 0, -0.481463, -0.876466, 0, 0.876466, -0.481463, 0, -6.41467, -5.93577)
+visible = false
 light_color = Color(0.819901, 0.860501, 0.917976, 1)
 light_energy = 0.16
 
-[node name="OmniLight3D" type="OmniLight3D" parent="CameraPivot"]
+[node name="OmniLight3D" type="OmniLight3D" parent="CameraPivot" unique_id=1201579622]
 visible = false
 light_color = Color(0.975198, 0.850739, 0.768224, 1)
 light_energy = 0.303

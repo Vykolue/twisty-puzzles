@@ -11,7 +11,7 @@ class_name Puzzle
 
 # A dictionary containing all faces and their corresponding colors and normal vectors
 # Syntax should be {String: {"color": String, "normal": Vector3}, ...}
-# Face normals should be the unit vector pointing to that face from the origin
+# Face normals should be the unit vector pointing towards that face from the origin
 @export var faces: Dictionary[String, Variant]
 
 # Contains a list of all valid operations
@@ -65,11 +65,12 @@ func _ready() -> void:
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 ### OPERATION FUNCTIONS ###
 
+# Rotates the given pieces about the given axis
 func rotate_pieces(axis: Vector3, ids_to_rotate: Array[String]) -> void:
 	var p_vertices = plastic_mesh_data[Mesh.ARRAY_VERTEX]
 	var s_vertices = sticker_mesh_data[Mesh.ARRAY_VERTEX]
@@ -85,7 +86,8 @@ func rotate_pieces(axis: Vector3, ids_to_rotate: Array[String]) -> void:
 
 ### CONSTRUCTORS ###
 
-func construct_solo(args) -> Puzzle:
+# Constructs a solo game with the given arguments
+func construct_solo(args: Dictionary[String, Variant]) -> Puzzle:
 	self.size = args["size"]
 	self.style = args["style"]
 	self.piece_scale = args["piece_scale"]
@@ -101,9 +103,14 @@ func construct_solo(args) -> Puzzle:
 	
 	return self
 
-func construct_ap(args) -> Puzzle:
+# Constructs an archipelago game with the given arguments
+func construct_ap(args: Dictionary[String, Variant]) -> Puzzle:
 	self.size = args["size"]
 	self.type = args["type"]
+	print(self.color_map)
+	print(typeof(color_map))
+	print(args["color_map"])
+	print(typeof(args["color_map"]))
 	self.color_map = args["color_map"]
 	self.style = args["style"]
 	self.piece_scale = args["piece_scale"]
@@ -122,11 +129,11 @@ func construct_ap(args) -> Puzzle:
 ### INSTANTIATION FUNCTIONS ###
 
 # Randomizes color layout
-@abstract func randomize_colors()
+@abstract func randomize_colors() -> void
 
 # Generates meshes
 # Hides the visibility if specified
-func generate_meshes(data, mesh_type, hide_mesh: bool = false):
+func generate_meshes(data: Dictionary[String, Variant], mesh_type: String, hide_mesh: bool = false) -> void:
 	var array_mesh = ArrayMesh.new()
 	var mesh_data = []
 	mesh_data.resize(Mesh.ARRAY_MAX)
@@ -167,16 +174,12 @@ func generate_meshes(data, mesh_type, hide_mesh: bool = false):
 		sticker_mesh = shape
 
 # Sends mesh data to generate_meshes
-@abstract func send_mesh_data()
+@abstract func send_mesh_data() -> void
 
 ### HELPER FUNCTIONS ###
 
-# Returns the negative of the given vector
-func flip_vector(vector: Vector3):
-	return Vector3(-vector.x, -vector.y, -vector.z)
-
 # Prints a list of directional constants for convenience
-func print_directional_consts():
+func print_directional_consts() -> void:
 	print("left: " + str(Vector3.LEFT))
 	print("right: " + str(Vector3.RIGHT))
 	print("up: " + str(Vector3.UP))
@@ -207,61 +210,14 @@ func reformat_ids(ids) -> Dictionary[String, Variant]:
 	
 	return new_ids
 
-func _input(event):
+func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Click"):
-		'''
-		rotate_pieces(faces["left"]["normal"], ["l0u0f0"])
-		'''
-		'''
-		rotate_pieces(faces["left"]["normal"], ["l0u0f0", "l0u0s0", "l0u0b0", "l0e0f0", "l0e0s0", "l0e0b0", "l0d0f0", "l0d0s0", "l0d0b0"])
-		'''
-		'''
-		var p_colors = plastic_mesh_data[Mesh.ARRAY_COLOR]
-		var s_colors = sticker_mesh_data[Mesh.ARRAY_COLOR]
-		if style == "stickerless":
-			for piece in id_dict_plastic:
-				for arr in id_dict_plastic[piece]:
-					var i = arr[0]
-					var f = arr[1]
-					if not f == "p":
-						p_colors[i] = colors[color_map["unrevealed"]]
-		else:
-			for piece in id_dict_stickers:
-				for arr in id_dict_stickers[piece]:
-					var i = arr[0]
-					s_colors[i] = colors[color_map["unrevealed"]]
-		regenerate_mesh(plastic_mesh_data, "plastic")
-		regenerate_mesh(sticker_mesh_data, "stickers")
-		'''
-		'''
-		var p_colors = plastic_mesh_data[Mesh.ARRAY_COLOR]
-		var s_colors = sticker_mesh_data[Mesh.ARRAY_COLOR]
-		var p_verts = plastic_mesh_data[Mesh.ARRAY_VERTEX]
-		var s_verts = sticker_mesh_data[Mesh.ARRAY_VERTEX]
-		if style == "stickerless":
-			var piece = "l0u0f0"
-			for arr in id_dict_plastic[piece]:
-				var i = arr[0]
-				var f = arr[1]
-				#if not f == "p":
-				p_colors[i] = colors[color_map["unrevealed"]]
-				if f == "p": print("plastic")
-				else: print("not plastic")
-				print(str(i) + "(" + f + "): " + str(vertex_to_readable(p_verts[i])))
-				print()
-		else:
-			var piece = "l0u0f0"
-			for arr in id_dict_stickers[piece]:
-				var i = arr[0]
-				var f = arr[1]
-				s_colors[i] = colors[color_map["unrevealed"]]
-				print(str(i) + "(" + f + "): " + str(vertex_to_readable(s_verts[i])))
-				print()
-		regenerate_mesh(plastic_mesh_data, "plastic")
-		regenerate_mesh(sticker_mesh_data, "stickers")
-		'''
+		#regenerate_mesh(plastic_mesh_data, "plastic")
+		#print("hi")
+		pass
 
-func regenerate_mesh(mesh_data, mesh_type):
+# regenerates the given mesh type using the new mesh data
+func regenerate_mesh(mesh_data: Array[Variant], mesh_type: String) -> void:
 	var arr_mesh = ArrayMesh.new()
 	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_data)
 	
@@ -274,7 +230,3 @@ func regenerate_mesh(mesh_data, mesh_type):
 		plastic_mesh.mesh = arr_mesh
 	if mesh_type == "stickers":
 		sticker_mesh.mesh = arr_mesh
-
-@abstract func triangle_to_readable(triangle: Array[Vector3])
-
-@abstract func vertex_to_readable(vertex: Vector3)

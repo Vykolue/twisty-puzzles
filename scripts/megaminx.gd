@@ -12,14 +12,10 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 ### MAIN FUNCTIONS ###
-
-# rotates the puzzle
-func rotate_puzzle(dir):
-	pass
 
 ### INSTANTIATION FUNCTIONS ###
 
@@ -32,7 +28,7 @@ func randomize_colors():
 # assigns a dictionary to faces
 func assign_faces():
 	var face_names = ["up", "down", "left", "right", "front", "back"]
-	var colors = ["white", "yellow", "orange", "red", "green", "blue"]
+	var color_names = ["white", "yellow", "orange", "red", "green", "blue"]
 	
 	var up_normal = Vector3(0.0, 1.0, 0.0)
 	var down_normal = Vector3(0.0, -1.0, 0.0)
@@ -44,12 +40,13 @@ func assign_faces():
 	var normals = [up_normal, down_normal, left_normal, right_normal, front_normal, back_normal]
 	
 	for i in len(face_names):
-		faces[face_names[i]] = {"color": colors[i], "normal": normals[i]}
+		faces[face_names[i]] = {"color": color_names[i], "normal": normals[i]}
 
 ### MESH GENERATION ###
 
 # generates mesh data for pieces and stickers and sends to generate_meshes()
 func send_mesh_data():
+	'''
 	var corners = {
 		"luf": Vector3() * (1.0/2.0 * size),
 		"ruf": Vector3() * (1.0/2.0 * size),
@@ -113,9 +110,5 @@ func send_mesh_data():
 	}
 	
 	generate_meshes(data, "plastic")
-
-func triangle_to_readable(triangle):
-	pass
-
-func vertex_to_readable(vertex: Vector3):
+	'''
 	pass

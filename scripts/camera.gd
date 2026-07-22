@@ -13,33 +13,30 @@ var is_clicking = false
 func _ready() -> void:
 	SignalBus.back.connect(back)
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
-func camera_pan(delta: float) -> void:
-	var mouse_pos: Vector2 = get_viewport().get_mouse_position()
-	var viewport_size: Vector2 = get_viewport().get_visible_rect().size
-	'''
-	if mouse_pos.x < CAMERA_PAN_MARGIN: cam_movement_velocity.x = -1 * delta
-	if mouse_pos.y < CAMERA_PAN_MARGIN: cam_movement_velocity.z = -1 * delta
-	if mouse_pos.x > CAMERA_PAN_MARGIN: cam_movement_velocity.x = delta
-	if mouse_pos.y > CAMERA_PAN_MARGIN: cam_movement_velocity.z = delta
-	'''
-
+# Pivots the camera around the origin when the player clicks and drags
 func _input(event):
 	if (game.page == "in_solo_game" or game.page == "in_ap_game") and event is InputEventMouseMotion and is_clicking:
-		camera_pivot.rotate(Vector3.UP, -1 * event.relative.x / sensitivity)
-		'''
-		camera_pivot.rotate(Vector3.RIGHT, -1 * event.relative.y / sensitivity)
-		camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-45), deg_to_rad(90))
-		'''
+		if abs(event.relative.x) > abs(event.relative.y):
+			camera_pivot.rotate(Vector3.UP, -1 * event.relative.x / sensitivity)
+		else:
+			'''
+			camera_pivot.rotate_object_local(Vector3.FORWARD, -1 * event.relative.y / sensitivity)
+			camera_pivot.rotate_object_local(Vector3.RIGHT, -1 * event.relative.y / sensitivity)
+			'''
+			#camera_pivot.rotation.z = clamp(camera_pivot.rotation.z, deg_to_rad(-45), deg_to_rad(45))
+			#camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-45), deg_to_rad(45))
+		camera_pivot.transform = camera_pivot.transform.orthonormalized()
+			
 	if event is InputEventMouseButton:
 		if event.is_action_pressed("Click"):
 			is_clicking = true
 		elif event.is_action_released("Click"):
 			is_clicking = false
 
+# Resets camera position when the game is exited
 func back():
 	camera_pivot.rotation = Vector3.ZERO

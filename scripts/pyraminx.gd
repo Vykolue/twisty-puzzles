@@ -31,7 +31,7 @@ func _ready() -> void:
 	send_mesh_data()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 ### MAIN FUNCTIONS ###
@@ -349,9 +349,3 @@ func match_vectors_by_face(face):
 			return [RIGHT_NORMAL, FRONT_NORMAL, LEFT_NORMAL, DOWN_NORMAL, "d", "l"]
 		"down":
 			return [DOWN_NORMAL, LEFT_NORMAL, FRONT_NORMAL, RIGHT_NORMAL, "r", "f"]
-
-func triangle_to_readable(triangle):
-	pass
-
-func vertex_to_readable(vertex: Vector3):
-	pass

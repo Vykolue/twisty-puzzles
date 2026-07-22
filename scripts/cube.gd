@@ -19,7 +19,7 @@ func _ready() -> void:
 	send_mesh_data()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass
 
 ### MAIN FUNCTIONS ###
@@ -95,42 +95,42 @@ func send_mesh_data():
 				d1 = "l"
 				v2 = FRONT_NORMAL
 				d2 = "b"
-				v3 = flip_vector(UP_NORMAL)
+				v3 = -UP_NORMAL
 			"front":
 				p = (LEFT_NORMAL + UP_NORMAL + FRONT_NORMAL)
 				v1 = RIGHT_NORMAL
 				d1 = "l"
 				v2 = DOWN_NORMAL
 				d2 = "u"
-				v3 = flip_vector(FRONT_NORMAL)
+				v3 = -FRONT_NORMAL
 			"right":
 				p = (RIGHT_NORMAL + UP_NORMAL + FRONT_NORMAL)
 				v1 = BACK_NORMAL
 				d1 = "f"
 				v2 = DOWN_NORMAL
 				d2 = "u"
-				v3 = flip_vector(RIGHT_NORMAL)
+				v3 = -RIGHT_NORMAL
 			"back":
 				p = (RIGHT_NORMAL + UP_NORMAL + BACK_NORMAL)
 				v1 = LEFT_NORMAL
 				d1 = "r"
 				v2 = DOWN_NORMAL
 				d2 = "u"
-				v3 = flip_vector(BACK_NORMAL)
+				v3 = -BACK_NORMAL
 			"left":
 				p = (LEFT_NORMAL + UP_NORMAL + BACK_NORMAL)
 				v1 = FRONT_NORMAL
 				d1 = "b"
 				v2 = DOWN_NORMAL
 				d2 = "u"
-				v3 = flip_vector(LEFT_NORMAL)
+				v3 = -LEFT_NORMAL
 			"down":
 				p = (LEFT_NORMAL + DOWN_NORMAL + FRONT_NORMAL)
 				v1 = RIGHT_NORMAL
 				d1 = "l"
 				v2 = BACK_NORMAL
 				d2 = "f"
-				v3 = flip_vector(DOWN_NORMAL)
+				v3 = -DOWN_NORMAL
 		
 		# scale the puzzle based on size
 		p = p * scale_by_size
@@ -151,7 +151,7 @@ func send_mesh_data():
 				var start_point = (p * corner_scale) + (v1 * i) + (v2 * j)
 				start_points.append(start_point)
 				
-				var s_start_point = (p * s_corner_scale) + (v1 * i) + (v2 * j) + ((s_adjustment + s_float - adjustment) * flip_vector(v3))
+				var s_start_point = (p * s_corner_scale) + (v1 * i) + (v2 * j) + ((s_adjustment + s_float - adjustment) * -v3)
 				sticker_start_points.append(s_start_point)
 				
 				indices.append([i, j])
@@ -159,7 +159,7 @@ func send_mesh_data():
 		# creates a separate face for the inside of the stickers
 		sticker_data[face + " inside"] = {
 			"color": sticker_data[face]["color"],
-			"normal": flip_vector(sticker_data[face]["normal"]),
+			"normal": -sticker_data[face]["normal"],
 			"triangles": []
 		}
 		
@@ -313,26 +313,6 @@ func get_piece_ids(ids):
 		# appends the id, and the face value that the current sticker is on
 		new_ids.append([new_id, id[0]])
 	return new_ids
-
-func vertex_to_readable(vertex):
-	var result = []
-	if vertex.x < -0.5: result.append("left")
-	elif vertex.x > 0.5: result.append("right")
-	else: result.append("middle")
-	if vertex.y < -0.5: result.append("down")
-	elif vertex.y > 0.5: result.append("up")
-	else: result.append("equator")
-	if vertex.z < -0.5: result.append("back")
-	elif vertex.z > 0.5: result.append("front")
-	else: result.append("slice")
-	return result
-
-func triangle_to_readable(triangle):
-	var all = []
-	for vertex in triangle:
-		var result = vertex_to_readable(vertex)
-		all.append(result)
-	return all
 
 func guess_id(arr):
 	var id = []
