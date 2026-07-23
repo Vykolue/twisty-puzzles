@@ -24,6 +24,7 @@ var connection_timeout = Timer.new()
 var timed_out = false
 
 var style = "traditional"
+var color_scheme = "standard"
 var piece_scale
 var sticker_scale
 
@@ -81,6 +82,7 @@ func _on_submit_pressed() -> void:
 func _on_start_pressed() -> void:
 	args["type"] = "cube"
 	args["style"] = style
+	args["color_scheme"] = color_scheme
 	args["piece_scale"] = piece_scale
 	args["sticker_scale"] = sticker_scale
 	
@@ -152,6 +154,9 @@ func _on_style_options_item_selected(index: int) -> void:
 			style = "transparent"
 		2:
 			style = "stickerless"
+
+func _on_color_options_item_selected(index: int) -> void:
+	color_scheme = ui.color_schemes[index]
 
 func _on_piece_slider_value_changed(value: float) -> void:
 	piece_scale = value

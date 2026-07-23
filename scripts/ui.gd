@@ -32,9 +32,17 @@ extends Control
 @onready var password_edit: LineEdit = $"Archipelago/Connection Page/Password/Password Edit"
 @onready var submit: Button = $"Archipelago/Connection Page/Submit"
 
+# Available color schemes
+const color_schemes = [
+	"standard", "rain", "sunset", "galaxy", "candy", 
+	"honeycomb", "forest", "ocean", "pastel", "cupid", 
+	"greyscale", "camo"
+]
+
 # Default settings values
 const default_rand_colors: bool = false
 const default_style: String = "traditional"
+const default_color_scheme: String = "standard"
 const default_type: String = "cube"
 const default_size: int = 3
 const default_piece_scale: float = 0.95
@@ -50,6 +58,7 @@ var args: Dictionary[String, Variant] = {
 	"size": size_slider_val, 
 	"style": default_style, 
 	"type": default_type, 
+	"color_scheme": default_color_scheme,
 	"randomize_colors": default_rand_colors, 
 	"piece_scale": default_piece_scale, 
 	"sticker_scale": default_sticker_scale
@@ -163,6 +172,10 @@ func _on_style_options_item_selected(index: int) -> void:
 			args["style"] = "transparent"
 		2:
 			args["style"] = "stickerless"
+
+# Gets the state of selected color scheme
+func _on_color_options_item_selected(index: int) -> void:
+	args["color_scheme"] = color_schemes[index]
 
 # Opens a popup to edit advanced settings
 func _on_advanced_settings_pressed() -> void:

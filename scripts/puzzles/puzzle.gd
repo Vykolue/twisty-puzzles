@@ -6,6 +6,7 @@ class_name Puzzle
 @export var type: String
 @export var size: int
 @export var style: String
+@export var color_scheme: String
 @export var piece_scale: float
 @export var sticker_scale: float
 @export var sticker_float: float
@@ -46,6 +47,8 @@ var colors: Dictionary[String, Color] = {
 	"plastic": Color(0.73, 0.73, 0.73, 1.0),
 	"unrevealed": Color(0.3, 0.0, 0.8, 1.0)
 }
+
+const COLOR_SCHEME_JSON = "res://resources/color_schemes.json"
 
 # Which face each color is mapped to
 var color_map: Dictionary[String, String] = {
@@ -92,6 +95,7 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 	size = args["size"]
 	type = args["type"]
 	style = args["style"]
+	color_scheme = args["color_scheme"]
 	piece_scale = args["piece_scale"]
 	sticker_scale = args["sticker_scale"]
 	sticker_float = 0.01
@@ -103,6 +107,8 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 	
 	color_map["plastic"] = "plastic"
 	color_map["unrevealed"] = "unrevealed"
+	
+	update_color_scheme(args["color_scheme"])
 	
 	if style == "traditional":
 		colors[color_map["plastic"]] = Color(0.05, 0.05, 0.05, 1.0)
@@ -194,6 +200,15 @@ func print_directional_consts() -> void:
 	print("down: " + str(Vector3.DOWN))
 	print("\"back\" (F face): " + str(Vector3.BACK))
 	print("\"forward\" (B face): " + str(Vector3.FORWARD))
+
+func update_color_scheme(scheme: String) -> void:
+	var file = FileAccess.open(COLOR_SCHEME_JSON, FileAccess.READ)
+	var json_string = file.get_as_text()
+	var data = JSON.parse_string(json_string)
+	
+	var new_hex_colors = data[scheme]
+	for color in new_hex_colors:
+		colors[color] = Color.html(new_hex_colors[color])
 
 # Gets the piece id of each triangle in the mesh
 @abstract func get_piece_ids(ids: Array[String]) -> Array[Variant]
