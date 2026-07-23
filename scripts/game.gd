@@ -78,18 +78,15 @@ func start_solo_game(args: Dictionary[String, Variant]) -> void:
 	
 	# Starts a cube puzzle
 	if args["type"] == "cube":
-		camera.global_position = Vector3(15.0, 15.0, 15.0)
-		camera.global_rotation = Vector3(deg_to_rad(-35.5), deg_to_rad(45.0), 0.0)
-		camera.fov = 1.0 + (args["size"] * 4.0)
+		camera.global_position = Vector3(args["size"] * 7.0, args["size"] * 7.0, args["size"] * 7.0)
+		camera.global_rotation = Vector3(deg_to_rad(-35.3), deg_to_rad(45.0), 0.0)
 		puzzle = CUBE.instantiate().construct(args)
 		add_child(puzzle)
 	
 	# Starts a pyraminx puzzle
 	if args["type"] == "pyraminx":
-		camera.global_position = Vector3(40.0, 40.0, 40.0)
+		camera.global_position = Vector3(args["size"] * 7.5, args["size"] * 7.5, args["size"] * 7.5)
 		camera.global_rotation = Vector3(deg_to_rad(-35.3), deg_to_rad(45.0), 0.0)
-		camera.fov = 0.0 + (args["size"] * 1.6)
-		#camera.fov = 1.0 + (args["size"] * 4.5)
 		puzzle = PYRAMINX.instantiate().construct(args)
 		add_child(puzzle)
 		puzzle.rotate_y(-0.25)
