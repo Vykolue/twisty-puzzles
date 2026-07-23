@@ -180,9 +180,9 @@ func _on_reset_piece_pressed() -> void:
 	piece_slider.value = ui.default_piece_scale
 
 func _on_reset_sticker_pressed() -> void:
-	sticker_scale = ui.default_sticker_scale
-	sticker_label.text = "Sticker Scale: " + str("%.2f" % ui.default_sticker_scale)
-	sticker_slider.value = ui.default_sticker_scale
+	sticker_scale = min(ui.default_sticker_scale, piece_slider.value)
+	sticker_label.text = "Sticker Scale: " + str("%.2f" % min(ui.default_sticker_scale, piece_slider.value))
+	sticker_slider.value = min(ui.default_sticker_scale, piece_slider.value)
 
 ### REFORMATS APWORLD DATA ###
 

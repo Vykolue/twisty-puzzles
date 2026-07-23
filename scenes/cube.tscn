@@ -2,6 +2,16 @@
 
 [ext_resource type="Script" uid="uid://nd8sqtod03c5" path="res://scripts/puzzles/cube.gd" id="1_7ufek"]
 
-[node name="Cube" type="Node3D"]
+[node name="Cube" type="Node3D" unique_id=1115260645]
 script = ExtResource("1_7ufek")
 type = "\"cube\""
+colors = Dictionary[String, Color]({
+"blue": Color(0.47058824, 0.09411765, 0.4627451, 1),
+"green": Color(0.41960785, 0.043137256, 0.21960784, 1),
+"orange": Color(0.87058824, 0.29411766, 0.105882354, 1),
+"plastic": Color(0.7294118, 0.7294118, 0.7294118, 1),
+"red": Color(0.87058824, 0.12156863, 0.28235295, 1),
+"unrevealed": Color(0.3019608, 0, 0.8, 1),
+"white": Color(0.9882353, 0.9607843, 0.9098039, 1),
+"yellow": Color(0.9882353, 0.7921569, 0.3647059, 1)
+})

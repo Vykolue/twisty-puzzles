@@ -1,0 +1,32 @@
+{
+	"standard": {
+		"red": "B51212", 
+		"orange": "FF681C", 
+		"blue": "3636CF", 
+		"green": "00C23D", 
+		"white": "FFFFFF", 
+		"yellow": "FFFF33",
+		"plastic": "BABABA",
+		"unrevealed": "4D00CC"
+	}, 
+	"rain": {
+		"red": "791DB3", 
+		"orange": "2798CC", 
+		"blue": "26887B", 
+		"green": "589128", 
+		"white": "E3F7FC", 
+		"yellow": "67EBDE",
+		"plastic": "BABABA",
+		"unrevealed": "4D00CC"
+	}, 
+	"sunset": {
+		"red": "DD3A5D", 
+		"orange": "DE5F35", 
+		"blue": "8E1D7D", 
+		"green": "9F1053", 
+		"white": "FCF1DD", 
+		"yellow": "FCD37D",
+		"plastic": "BABABA",
+		"unrevealed": "4D00CC"
+	}
+}

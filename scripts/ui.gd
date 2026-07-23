@@ -298,9 +298,9 @@ func reset_piece_scale() -> void:
 	piece_slider.value = default_piece_scale
 
 func reset_sticker_scale() -> void:
-	args["sticker_scale"] = default_sticker_scale
-	sticker_label.text = "Sticker Scale: "+ str("%.2f" % default_sticker_scale)
-	sticker_slider.value = default_sticker_scale
+	args["sticker_scale"] = min(default_sticker_scale, piece_slider.value)
+	sticker_label.text = "Sticker Scale: "+ str("%.2f" % min(default_sticker_scale, piece_slider.value))
+	sticker_slider.value = min(default_sticker_scale, piece_slider.value)
 
 ### HELPER FUNCITONS ###
 

@@ -37,7 +37,7 @@ var id_dict_plastic: Dictionary[String, Variant]
 var id_dict_stickers: Dictionary[String, Variant]
 
 # The color value associated with that color
-var colors: Dictionary[String, Color] = {
+@export var colors: Dictionary[String, Color] = {
 	"red": Color(0.71, 0.071, 0.071, 1.0), 
 	"orange": Color(1.0, 0.407, 0.11, 1.0), 
 	"blue": Color(0.211, 0.211, 0.81, 1.0), 
@@ -48,6 +48,7 @@ var colors: Dictionary[String, Color] = {
 	"unrevealed": Color(0.3, 0.0, 0.8, 1.0)
 }
 
+# Stores the color values associated with each color scheme
 const COLOR_SCHEME_JSON = "res://resources/color_schemes.json"
 
 # Which face each color is mapped to

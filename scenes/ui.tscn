@@ -400,10 +400,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 260.0
-offset_top = -7.0
-offset_right = 475.0
-offset_bottom = 101.0
+offset_left = 266.0
+offset_top = 15.0
+offset_right = 430.0
+offset_bottom = 73.0
 grow_horizontal = 2
 grow_vertical = 2
 selected = 0
@@ -987,9 +987,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -55.0
-offset_top = -149.0
+offset_top = -111.0
 offset_right = 121.0
-offset_bottom = -106.0
+offset_bottom = -68.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 22
@@ -1011,13 +1011,66 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -131.0
-offset_top = -146.0
+offset_top = -108.0
 offset_right = -66.0
-offset_bottom = -111.0
+offset_bottom = -73.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_font_sizes/font_size = 22
 text = "Style:"
+
+[node name="Color" type="Control" parent="Archipelago/Options Page" unique_id=1043009431]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Color Label" type="Label" parent="Archipelago/Options Page/Color" unique_id=539784173]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -194.0
+offset_top = -14.5
+offset_right = -43.0
+offset_bottom = 50.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 22
+text = "Color
+Scheme:"
+horizontal_alignment = 1
+
+[node name="Color Options" type="OptionButton" parent="Archipelago/Options Page/Color" unique_id=1242357207]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -50.0
+offset_top = -6.0
+offset_right = 114.0
+offset_bottom = 52.0
+grow_horizontal = 2
+grow_vertical = 2
+selected = 0
+item_count = 3
+popup/item_0/text = "standard"
+popup/item_0/icon = ExtResource("4_ktti3")
+popup/item_0/id = 0
+popup/item_1/text = "rain"
+popup/item_1/icon = ExtResource("5_cgfq5")
+popup/item_1/id = 1
+popup/item_2/text = "sunset"
+popup/item_2/icon = ExtResource("6_7dvkv")
+popup/item_2/id = 2
 
 [node name="Advanced Settings" type="Control" parent="Archipelago/Options Page" unique_id=1069217582]
 layout_mode = 1
@@ -1190,59 +1243,6 @@ scale = Vector2(0.425, 0.425)
 theme_override_styles/focus = SubResource("StyleBoxEmpty_cof4p")
 icon = ExtResource("4_gdt2y")
 
-[node name="Color" type="Control" parent="Archipelago/Options Page" unique_id=1043009431]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Color Label" type="Label" parent="Archipelago/Options Page/Color" unique_id=539784173]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -194.0
-offset_top = -14.5
-offset_right = -43.0
-offset_bottom = 50.5
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 22
-text = "Color
-Scheme:"
-horizontal_alignment = 1
-
-[node name="Color Options" type="OptionButton" parent="Archipelago/Options Page/Color" unique_id=1242357207]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -56.0
-offset_top = -32.0
-offset_right = 159.0
-offset_bottom = 77.0
-grow_horizontal = 2
-grow_vertical = 2
-selected = 0
-item_count = 3
-popup/item_0/text = "standard"
-popup/item_0/icon = ExtResource("4_ktti3")
-popup/item_0/id = 0
-popup/item_1/text = "rain"
-popup/item_1/icon = ExtResource("5_cgfq5")
-popup/item_1/id = 1
-popup/item_2/text = "sunset"
-popup/item_2/icon = ExtResource("6_7dvkv")
-popup/item_2/id = 2
-
 [node name="In_Game" type="Control" parent="." unique_id=1809782557]
 visible = false
 layout_mode = 1
@@ -1299,12 +1299,12 @@ text = "Back"
 [connection signal="pressed" from="Archipelago/Connection Page/Submit" to="Archipelago" method="_on_submit_pressed"]
 [connection signal="pressed" from="Archipelago/Options Page/Start" to="Archipelago" method="_on_start_pressed"]
 [connection signal="item_selected" from="Archipelago/Options Page/Style/Style Options" to="Archipelago" method="_on_style_options_item_selected"]
+[connection signal="item_selected" from="Archipelago/Options Page/Color/Color Options" to="Archipelago" method="_on_color_options_item_selected"]
 [connection signal="pressed" from="Archipelago/Options Page/Advanced Settings/Advanced Settings" to="Archipelago" method="_on_advanced_settings_pressed"]
 [connection signal="pressed" from="Archipelago/Options Page/Advanced Settings/Popup/Close" to="Archipelago" method="_on_close_pressed"]
 [connection signal="value_changed" from="Archipelago/Options Page/Advanced Settings/Popup/Piece/Piece Slider" to="Archipelago" method="_on_piece_slider_value_changed"]
 [connection signal="pressed" from="Archipelago/Options Page/Advanced Settings/Popup/Piece/Reset Piece" to="Archipelago" method="_on_reset_piece_pressed"]
 [connection signal="value_changed" from="Archipelago/Options Page/Advanced Settings/Popup/Sticker/Sticker Slider" to="Archipelago" method="_on_sticker_slider_value_changed"]
 [connection signal="pressed" from="Archipelago/Options Page/Advanced Settings/Popup/Sticker/Reset Sticker" to="Archipelago" method="_on_reset_sticker_pressed"]
-[connection signal="item_selected" from="Archipelago/Options Page/Color/Color Options" to="Archipelago" method="_on_color_options_item_selected"]
 [connection signal="pressed" from="Back" to="." method="_on_back_pressed"]
 [connection signal="pressed" from="Back" to="Archipelago" method="_on_back_pressed"]

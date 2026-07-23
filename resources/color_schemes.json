@@ -6,27 +6,27 @@
 		"green": "00C23D", 
 		"white": "FFFFFF", 
 		"yellow": "FFFF33",
-		"plastic": "BABABA",
-		"unrevealed": "4D00CC"
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
 	}, 
 	"rain": {
-		"red":"791DB3", 
-		"orange": "2798CC", 
-		"blue": "26887B", 
-		"green": "589128", 
-		"white": "E3F7FC", 
-		"yellow": "67EBDE",
-		"plastic": "BABABA",
-		"unrevealed": "4D00CC"
+		"red": "4416cc", 
+		"orange": "218ed1", 
+		"blue": "195e55", 
+		"green": "2a911a", 
+		"white": "c7f2ff", 
+		"yellow": "3df2d1",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
 	}, 
 	"sunset": {
-		"red":"DD3A5D", 
-		"orange": "DE5F35", 
-		"blue": "8E1D7D", 
-		"green": "9F1053", 
-		"white": "FCF1DD", 
-		"yellow": "FCD37D",
-		"plastic": "BABABA",
-		"unrevealed": "4D00CC"
+		"red": "de1f48", 
+		"orange": "de4b1b", 
+		"blue": "781876", 
+		"green": "6b0b38", 
+		"white": "fcf5e8", 
+		"yellow": "fcca5d",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
 	}
 }
