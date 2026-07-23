@@ -20,15 +20,9 @@ func _process(_delta: float) -> void:
 # Pivots the camera around the origin when the player clicks and drags
 func _input(event):
 	if (game.page == "in_solo_game" or game.page == "in_ap_game") and event is InputEventMouseMotion and is_clicking:
-		if abs(event.relative.x) > abs(event.relative.y):
-			camera_pivot.rotate(Vector3.UP, -1 * event.relative.x / sensitivity)
-		else:
-			'''
-			camera_pivot.rotate_object_local(Vector3.FORWARD, -1 * event.relative.y / sensitivity)
-			camera_pivot.rotate_object_local(Vector3.RIGHT, -1 * event.relative.y / sensitivity)
-			'''
-			#camera_pivot.rotation.z = clamp(camera_pivot.rotation.z, deg_to_rad(-45), deg_to_rad(45))
-			#camera_pivot.rotation.x = clamp(camera_pivot.rotation.x, deg_to_rad(-45), deg_to_rad(45))
+		camera_pivot.transform = camera_pivot.transform.rotated_local(Vector3.UP, -1 * event.relative.x / sensitivity)
+		camera_pivot.transform = camera_pivot.transform.rotated_local(Vector3.RIGHT, -1 * event.relative.y / sensitivity)
+
 		camera_pivot.transform = camera_pivot.transform.orthonormalized()
 			
 	if event is InputEventMouseButton:
@@ -39,4 +33,4 @@ func _input(event):
 
 # Resets camera position when the game is exited
 func back():
-	camera_pivot.rotation = Vector3.ZERO
+	camera_pivot.rotation = Vector3(deg_to_rad(-45.0), deg_to_rad(45.0), 0.0)

@@ -8,6 +8,7 @@ class_name Puzzle
 @export var style: String
 @export var piece_scale: float
 @export var sticker_scale: float
+@export var sticker_float: float
 
 # A dictionary containing all faces and their corresponding colors and normal vectors
 # Syntax should be {String: {"color": String, "normal": Vector3}, ...}
@@ -88,16 +89,17 @@ func rotate_pieces(axis: Vector3, ids_to_rotate: Array[String]) -> void:
 
 # Constructs a game with the given arguments
 func construct(args: Dictionary[String, Variant]) -> Puzzle:
-	self.size = args["size"]
-	self.type = args["type"]
-	self.style = args["style"]
-	self.piece_scale = args["piece_scale"]
-	self.sticker_scale = args["sticker_scale"]
+	size = args["size"]
+	type = args["type"]
+	style = args["style"]
+	piece_scale = args["piece_scale"]
+	sticker_scale = args["sticker_scale"]
+	sticker_float = 0.01
 	
 	if args["game_mode"] == "solo" and args["randomize_colors"]:
 		randomize_colors()
 	if args["game_mode"] == "ap":
-		self.color_map = args["color_map"]
+		color_map = args["color_map"]
 	
 	color_map["plastic"] = "plastic"
 	color_map["unrevealed"] = "unrevealed"
@@ -114,10 +116,16 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 
 ### INSTANTIATION FUNCTIONS ###
 
+# Assigns a dictionary to faces
+@abstract func assign_faces() -> void
+
 # Randomizes color layout
 @abstract func randomize_colors() -> void
 
-@abstract func assign_faces() -> void
+### MESH GENERATION ###
+
+# Sends mesh data to generate_meshes
+@abstract func send_mesh_data() -> void
 
 # Generates meshes
 # Hides the visibility if specified
@@ -161,8 +169,20 @@ func generate_meshes(data: Dictionary[String, Variant], mesh_type: String, hide_
 		sticker_mesh_data = mesh_data
 		sticker_mesh = shape
 
-# Sends mesh data to generate_meshes
-@abstract func send_mesh_data() -> void
+# Regenerates the given mesh type using the new mesh data
+func regenerate_mesh(mesh_data: Array[Variant], mesh_type: String) -> void:
+	var arr_mesh = ArrayMesh.new()
+	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_data)
+	
+	var mat = StandardMaterial3D.new()
+	mat.vertex_color_use_as_albedo = true
+	
+	arr_mesh.surface_set_material(0, mat)
+	
+	if mesh_type == "plastic":
+		plastic_mesh.mesh = arr_mesh
+	if mesh_type == "stickers":
+		sticker_mesh.mesh = arr_mesh
 
 ### HELPER FUNCTIONS ###
 
@@ -202,21 +222,21 @@ func reformat_ids(ids) -> Dictionary[String, Variant]:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Click"):
-		#regenerate_mesh(plastic_mesh_data, "plastic")
-		#print("hi")
-		pass
-
-# Regenerates the given mesh type using the new mesh data
-func regenerate_mesh(mesh_data: Array[Variant], mesh_type: String) -> void:
-	var arr_mesh = ArrayMesh.new()
-	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_data)
-	
-	var mat = StandardMaterial3D.new()
-	mat.vertex_color_use_as_albedo = true
-	
-	arr_mesh.surface_set_material(0, mat)
-	
-	if mesh_type == "plastic":
-		plastic_mesh.mesh = arr_mesh
-	if mesh_type == "stickers":
-		sticker_mesh.mesh = arr_mesh
+		'''
+		var p_colors = plastic_mesh_data[Mesh.ARRAY_COLOR]
+		var s_colors = sticker_mesh_data[Mesh.ARRAY_COLOR]
+		if style == "stickerless":
+			for piece in id_dict_plastic:
+				for arr in id_dict_plastic[piece]:
+					var i = arr[0]
+					var f = arr[1]
+					if not f == "p":
+						p_colors[i] = colors[color_map["unrevealed"]]
+		else:
+			for piece in id_dict_stickers:
+				for arr in id_dict_stickers[piece]:
+					var i = arr[0]
+					s_colors[i] = colors[color_map["unrevealed"]]
+		regenerate_mesh(plastic_mesh_data, "plastic")
+		regenerate_mesh(sticker_mesh_data, "stickers")
+		'''

@@ -49,20 +49,13 @@ func send_mesh_data():
 	var scale_by_size = 0.5 * size
 	
 	# scale the pieces so there is a gap between
-	#var piece_scale = 0.95
 	var adjustment = (1.0 - piece_scale) / 2.0
 	var corner_scale = (scale_by_size - adjustment) / scale_by_size
 	
 	# scale the stickers to not take up the entire surface
 	# value should be less than piece_scale
-	#var sticker_scale = 0.90
 	var s_adjustment = (1.0 - sticker_scale) / 2.0
 	var s_corner_scale = (scale_by_size - s_adjustment) / scale_by_size
-	
-	# how far the sticker floats in front of the face
-	# setting this to 0 will cause issues with rendering both sticker and face 
-	# in the same location
-	var s_float = 0.01
 	
 	# builds the data face by face
 	for face in faces:
@@ -147,7 +140,7 @@ func send_mesh_data():
 				var start_point = (p * corner_scale) + (v1 * i) + (v2 * j)
 				start_points.append(start_point)
 				
-				var s_start_point = (p * s_corner_scale) + (v1 * i) + (v2 * j) + ((s_adjustment + s_float - adjustment) * -v3)
+				var s_start_point = (p * s_corner_scale) + (v1 * i) + (v2 * j) + ((s_adjustment + sticker_float - adjustment) * -v3)
 				sticker_start_points.append(s_start_point)
 				
 				indices.append([i, j])

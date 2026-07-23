@@ -16,9 +16,10 @@ mesh = ExtResource("3_lnu2h")
 visible = false
 
 [node name="CameraPivot" type="Node3D" parent="." unique_id=617801609]
+transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
 
 [node name="Camera" type="Camera3D" parent="CameraPivot" unique_id=49967147]
-transform = Transform3D(0.707107, -0.410619, 0.575667, 0, 0.814116, 0.580703, -0.707107, -0.410619, 0.575667, 15, 15, 15)
+transform = Transform3D(1.0000002, 0, 0, 0, 1.0000004, 0, 0, 0, 1.0000005, 0, 0, 20)
 fov = 8.0
 script = ExtResource("4_lbhrr")
 

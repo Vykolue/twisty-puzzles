@@ -1,9 +1,5 @@
 extends Puzzle
 
-const height = 4.0 / 3.0
-const dist_to_vertex = 1.0
-const dist_to_face = 1.0 / 3.0
-
 # tetrahedron helper values
 const VAL1 = (sqrt(6.0)) / 3.0 # approx 0.82
 const VAL2 = (sqrt(2.0)) / 3.0 # approx 0.47
@@ -80,11 +76,6 @@ func send_mesh_data():
 	#var s_adj_vector = Vector3(0.0, -s_adjustment, 0.0)
 	#var s_corner_scale = (size - s_adjustment) / size
 	
-	# how far the sticker floats in front of the face
-	# setting this to 0 will cause issues with rendering both sticker and face 
-	# in the same location
-	var s_float = 0.01
-	
 	# builds the data face by face
 	for face in faces:
 		outer_plastic_data[face]["triangles"] = []
@@ -137,7 +128,7 @@ func send_mesh_data():
 				var start_point = (top) + (u_to_l * i) + (l_to_r * j) + (d_norm * adj_scaled_down * idk_scale_tetra)
 				start_points_tetra.append(start_point)
 				
-				var s_start_point = (top) + (u_to_l * i) + (l_to_r * j) + (d_norm * s_adj_scaled_down * idk_scale_tetra) + (f_norm * (s_adj_scaled_back + s_float - adj_scaled_back))
+				var s_start_point = (top) + (u_to_l * i) + (l_to_r * j) + (d_norm * s_adj_scaled_down * idk_scale_tetra) + (f_norm * (s_adj_scaled_back + sticker_float - adj_scaled_back))
 				sticker_start_points_tetra.append(s_start_point)
 				
 				indices_tetra.append([i, j])
@@ -150,7 +141,7 @@ func send_mesh_data():
 				var start_point = (top) + (u_to_l * i) + (l_to_r * j) + (oct_norm * adj_scaled_down * idk_scale_octa)
 				start_points_octa.append(start_point)
 				
-				var s_start_point = (top) + (u_to_l * i) + (l_to_r * j) + (oct_norm * s_adj_scaled_down * idk_scale_octa) + (f_norm * idk_scale_octa * (s_adj_scaled_back + s_float - adj_scaled_back))
+				var s_start_point = (top) + (u_to_l * i) + (l_to_r * j) + (oct_norm * s_adj_scaled_down * idk_scale_octa) + (f_norm * idk_scale_octa * (s_adj_scaled_back + (sticker_float / idk_scale_octa) - adj_scaled_back))
 				sticker_start_points_octa.append(s_start_point)
 				
 				indices_octa.append([i, j])
