@@ -23,6 +23,8 @@ const APStatus = Archipelago.APStatus
 var connection_timeout = Timer.new()
 var timed_out = false
 
+var used_rand_scheme = false
+
 var style = "traditional"
 var color_scheme = "standard"
 var piece_scale
@@ -86,10 +88,14 @@ func _on_start_pressed() -> void:
 	args["piece_scale"] = piece_scale
 	args["sticker_scale"] = sticker_scale
 	
+	check_rand_color_scheme()
+	args["color_scheme"] = color_scheme
+	
 	SignalBus.start_ap.emit(args)
 
-'''
+
 func _on_back_pressed() -> void:
+	'''
 	if in_game:
 		options_page.visible = true
 		in_game = false
@@ -99,7 +105,12 @@ func _on_back_pressed() -> void:
 		connection_page.visible = true
 		loading_page.visible = false
 		SignalBus.prompt_ap_connection.emit()
-'''
+	'''
+	
+	if used_rand_scheme:
+		used_rand_scheme = false
+		color_scheme = "random"
+
 
 ### ARCHIPELAGO CONNECTION ###
 
@@ -207,3 +218,10 @@ func reformat_colors():
 	new_map["plastic"] = "plastic"
 	new_map["unrevealed"] = "unrevealed"
 	args["color_map"] = new_map
+
+func check_rand_color_scheme():
+	if color_scheme == "random":
+		used_rand_scheme = true
+		var rand_index = randi() % (len(ui.color_schemes) - 1)
+		if rand_index >= 1: rand_index += 1
+		color_scheme = ui.color_schemes[rand_index]

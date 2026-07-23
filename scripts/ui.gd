@@ -33,10 +33,16 @@ extends Control
 @onready var submit: Button = $"Archipelago/Connection Page/Submit"
 
 # Available color schemes
+'''
 const color_schemes = [
-	"standard", "rain", "sunset", "galaxy", "candy", 
+	"standard", "random", "rain", "sunset", "galaxy", "candy", 
 	"honeycomb", "forest", "ocean", "pastel", "cupid", 
 	"greyscale", "camo"
+]
+'''
+const color_schemes = [
+	"standard", "random", "rain", "sunset", "galaxy", "candy", 
+	"honeycomb"
 ]
 
 # Default settings values
@@ -52,6 +58,8 @@ const default_sticker_scale: float = 0.85
 var size_slider_val: int = default_size
 var size_override: int = 10
 var use_size_override: bool = false
+
+var used_rand_scheme = false
 
 # Args used to construct the game
 var args: Dictionary[String, Variant] = {
@@ -94,6 +102,8 @@ func _process(_delta: float) -> void:
 func _on_cube_pressed() -> void:
 	args["type"] = "cube"
 	
+	check_rand_color_scheme()
+	
 	if args["size"] == 1:
 		popup.visible = true
 	else:
@@ -103,6 +113,8 @@ func _on_cube_pressed() -> void:
 func _on_pyraminx_pressed() -> void:
 	args["type"] = "pyraminx"
 	
+	check_rand_color_scheme()
+	
 	if args["size"] <= 2:
 		popup.visible = true
 	else:
@@ -111,6 +123,8 @@ func _on_pyraminx_pressed() -> void:
 # Megaminx button
 func _on_megaminx_pressed() -> void:
 	args["type"] = "megaminx"
+	
+	check_rand_color_scheme()
 	
 	if args["size"] == 1:
 		popup.visible = true
@@ -132,6 +146,10 @@ func _on_popup_no_pressed() -> void:
 
 # Back button
 func _on_back_pressed() -> void:
+	if used_rand_scheme:
+		used_rand_scheme = false
+		args["color_scheme"] = "random"
+	
 	SignalBus.back.emit()
 
 # Starts solo mode
@@ -324,3 +342,10 @@ func get_valid_port(val: int) -> int:
 
 func is_valid_port(val: int) -> bool:
 	return val == get_valid_port(val)
+
+func check_rand_color_scheme():
+	if args["color_scheme"] == "random":
+		used_rand_scheme = true
+		var rand_index = randi() % (len(color_schemes) - 1)
+		if rand_index >= 1: rand_index += 1
+		args["color_scheme"] = color_schemes[rand_index]

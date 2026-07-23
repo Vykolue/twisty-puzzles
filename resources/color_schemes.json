@@ -28,5 +28,45 @@
 		"yellow": "fcca5d",
 		"plastic": "bababa",
 		"unrevealed": "4d00cc"
+	}, 
+	"galaxy": {
+		"red": "541269", 
+		"orange": "22607a", 
+		"blue": "3c42b0", 
+		"green": "1c1745", 
+		"white": "fffbed", 
+		"yellow": "9c808e",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"candy": {
+		"red": "dc287c", 
+		"orange": "de6026", 
+		"blue": "4a2510", 
+		"green": "0ac77b", 
+		"white": "f9e8fc", 
+		"yellow": "fa75f1",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"honeycomb": {
+		"red": "701f11", 
+		"orange": "de541d", 
+		"blue": "5c2806", 
+		"green": "ab7b22", 
+		"white": "f2facf", 
+		"yellow": "fad82f",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"galaxy_new": {
+		"red": "92087d", 
+		"orange": "6a2db0", 
+		"blue": "4c54b1", 
+		"green": "291c57", 
+		"white": "e7e2f7", 
+		"yellow": "d28eae",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
 	}
 }

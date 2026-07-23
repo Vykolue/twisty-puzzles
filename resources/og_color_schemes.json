@@ -1,32 +1,72 @@
 {
 	"standard": {
-		"red": "B51212", 
-		"orange": "FF681C", 
-		"blue": "3636CF", 
-		"green": "00C23D", 
-		"white": "FFFFFF", 
-		"yellow": "FFFF33",
-		"plastic": "BABABA",
-		"unrevealed": "4D00CC"
+		"red": "b51212", 
+		"orange": "ff681c", 
+		"blue": "3636cf", 
+		"green": "00c23d", 
+		"white": "ffffff", 
+		"yellow": "ffff33",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
 	}, 
 	"rain": {
-		"red": "791DB3", 
-		"orange": "2798CC", 
-		"blue": "26887B", 
+		"red": "791db3", 
+		"orange": "2798cc", 
+		"blue": "26887b", 
 		"green": "589128", 
-		"white": "E3F7FC", 
-		"yellow": "67EBDE",
-		"plastic": "BABABA",
-		"unrevealed": "4D00CC"
+		"white": "e3f7fc", 
+		"yellow": "67ebde",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
 	}, 
 	"sunset": {
-		"red": "DD3A5D", 
-		"orange": "DE5F35", 
-		"blue": "8E1D7D", 
-		"green": "9F1053", 
-		"white": "FCF1DD", 
-		"yellow": "FCD37D",
-		"plastic": "BABABA",
-		"unrevealed": "4D00CC"
+		"red": "dd3a5d", 
+		"orange": "de5f35", 
+		"blue": "8e1d7d", 
+		"green": "9f1053", 
+		"white": "fcf1dd", 
+		"yellow": "fcd37d",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"galaxy": {
+		"red": "6c0f5e", 
+		"orange": "2d6983", 
+		"blue": "4e529c", 
+		"green": "281c56", 
+		"white": "f7ebe2", 
+		"yellow": "c19fb1",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"candy": {
+		"red": "dc287c", 
+		"orange": "dd7036", 
+		"blue": "6d3e1e", 
+		"green": "27c787", 
+		"white": "f9ecfc", 
+		"yellow": "fa88f3",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"honeycomb": {
+		"red": "8e250d", 
+		"orange": "dd6731", 
+		"blue": "7e4508", 
+		"green": "b98a25", 
+		"white": "fbf4d4", 
+		"yellow": "fbde55",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"galaxy_new": {
+		"red": "92087d", 
+		"orange": "6a2db0", 
+		"blue": "4c54b1", 
+		"green": "291c57", 
+		"white": "e7e2f7", 
+		"yellow": "d28eae",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
 	}
 }
