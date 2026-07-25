@@ -42,7 +42,7 @@ const color_schemes = [
 '''
 const color_schemes = [
 	"standard", "random", "rain", "sunset", "galaxy", "candy", 
-	"honeycomb"
+	"honeycomb", "forest", "ocean"
 ]
 
 # Default settings values

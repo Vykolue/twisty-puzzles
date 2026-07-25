@@ -59,6 +59,26 @@
 		"plastic": "bababa",
 		"unrevealed": "4d00cc"
 	}, 
+	"forest": {
+		"red": "814a23", 
+		"orange": "8fa92f", 
+		"blue": "229f3a", 
+		"green": "255718", 
+		"white": "f9fce2", 
+		"yellow": "dfb76d",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
+	"ocean": {
+		"red": "192978", 
+		"orange": "158082", 
+		"blue": "3b5ec6", 
+		"green": "30aa81", 
+		"white": "e3f1fb", 
+		"yellow": "75d0f0",
+		"plastic": "bababa",
+		"unrevealed": "4d00cc"
+	}, 
 	"galaxy_new": {
 		"red": "92087d", 
 		"orange": "6a2db0", 
