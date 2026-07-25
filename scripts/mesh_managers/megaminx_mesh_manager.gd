@@ -15,3 +15,15 @@ func _process(_delta: float) -> void:
 
 func send_mesh_data():
 	pass
+
+func retrieve_mesh_data(mesh_type):
+	return {}
+
+### HELPER FUNCTIONS ###
+
+func get_piece_ids(ids):
+	return ids
+
+func set_scales():
+	scale_by_size = size
+	idk_scales = [1]

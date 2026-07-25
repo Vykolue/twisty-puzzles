@@ -63,6 +63,8 @@ var color_map: Dictionary[String, String] = {
 	"unrevealed": "unrevealed"
 }
 
+var mesh_manager: MeshManager
+
 ### DEFAULT FUNCTIONS ###
 
 # Called when the node enters the scene tree for the first time.
@@ -100,6 +102,7 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 	piece_scale = args["piece_scale"]
 	sticker_scale = args["sticker_scale"]
 	sticker_float = 0.01
+	args["sticker_float"] = sticker_float
 	
 	if args["game_mode"] == "solo" and args["randomize_colors"]:
 		randomize_colors()
@@ -117,7 +120,24 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 		colors[color_map["plastic"]] = Color(0.65, 0.65, 0.65, 1.0)
 	
 	assign_faces()
-	send_mesh_data()
+	
+	args["faces"] = faces
+	args["colors"] = colors
+	args["color_map"] = color_map
+	
+	if args["type"] == "cube":
+		mesh_manager = CubeMeshManager.new(args)
+	if args["type"] == "pyraminx":
+		mesh_manager = PyraminxMeshManager.new(args)
+	if args["type"] == "megaminx":
+		mesh_manager = MegaminxMeshManager.new(args)
+	
+	plastic_mesh = mesh_manager.generate_meshes("plastic", (style == "transparent"))
+	add_child(plastic_mesh)
+	sticker_mesh = mesh_manager.generate_meshes("stickers", (style == "stickerless"))
+	add_child(sticker_mesh)
+	
+	#send_mesh_data()
 	
 	return self
 
