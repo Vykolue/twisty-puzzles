@@ -85,11 +85,11 @@ func rotate_pieces(axis: Vector3, ids_to_rotate: Array[String]) -> void:
 		for arr in id_dict_plastic[piece]:
 			var i = arr[0]
 			p_vertices[i] = p_vertices[i].rotated(axis, PI / 2.0)
-			regenerate_mesh(plastic_mesh_data, "plastic")
+			mesh_manager.regenerate_mesh(plastic_mesh_data, "plastic")
 		for arr in id_dict_stickers[piece]:
 			var i = arr[0]
 			s_vertices[i] = s_vertices[i].rotated(axis, PI / 2.0)
-			regenerate_mesh(sticker_mesh_data, "stickers")
+			mesh_manager.regenerate_mesh(sticker_mesh_data, "stickers")
 
 ### CONSTRUCTOR ###
 
@@ -150,66 +150,6 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 @abstract func randomize_colors() -> void
 
 ### MESH GENERATION ###
-
-# Sends mesh data to generate_meshes
-@abstract func send_mesh_data() -> void
-
-# Generates meshes
-# Hides the visibility if specified
-func generate_meshes(data: Dictionary[String, Variant], mesh_type: String, hide_mesh: bool = false) -> void:
-	var array_mesh = ArrayMesh.new()
-	var mesh_data = []
-	mesh_data.resize(Mesh.ARRAY_MAX)
-	
-	var vertices = PackedVector3Array()
-	var normals = PackedVector3Array()
-	var color_array = PackedColorArray()
-	
-	var mat = StandardMaterial3D.new()
-	
-	for face in data:
-		for triangle in data[face]["triangles"]:
-			for vertex in triangle:
-				vertices.append(vertex)
-				normals.append(data[face]["normal"])
-				color_array.append(colors[color_map[data[face]["color"]]])
-	
-	mesh_data[Mesh.ARRAY_VERTEX] = vertices
-	mesh_data[Mesh.ARRAY_NORMAL] = normals
-	mesh_data[Mesh.ARRAY_COLOR] = color_array
-	
-	mat.vertex_color_use_as_albedo = true
-	
-	array_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_data)
-	array_mesh.surface_set_material(0, mat)
-	var shape = MeshInstance3D.new()
-	shape.mesh = array_mesh
-	
-	shape.visible = not hide_mesh
-	
-	add_child(shape)
-	
-	if mesh_type == "plastic":
-		plastic_mesh_data = mesh_data
-		plastic_mesh = shape
-	elif mesh_type == "stickers":
-		sticker_mesh_data = mesh_data
-		sticker_mesh = shape
-
-# Regenerates the given mesh type using the new mesh data
-func regenerate_mesh(mesh_data: Array[Variant], mesh_type: String) -> void:
-	var arr_mesh = ArrayMesh.new()
-	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLES, mesh_data)
-	
-	var mat = StandardMaterial3D.new()
-	mat.vertex_color_use_as_albedo = true
-	
-	arr_mesh.surface_set_material(0, mat)
-	
-	if mesh_type == "plastic":
-		plastic_mesh.mesh = arr_mesh
-	if mesh_type == "stickers":
-		sticker_mesh.mesh = arr_mesh
 
 ### HELPER FUNCTIONS ###
 

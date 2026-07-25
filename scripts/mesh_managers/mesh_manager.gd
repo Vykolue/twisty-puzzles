@@ -34,7 +34,7 @@ var sticker_ids = []
 
 # scales the puzzle based on size while remaining centered on the origin
 var scale_by_size
-var idk_scales
+var scale_by_piece_type
 
 # scale the pieces so there is a gap between
 var adjustment
@@ -167,4 +167,5 @@ func reformat_ids(ids) -> Dictionary[String, Variant]:
 	
 	return new_ids
 
+# Sets the scale_by_size and scale_by_piece_type
 @abstract func set_scales()
