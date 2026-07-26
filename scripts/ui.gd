@@ -11,15 +11,18 @@ extends Control
 # Connect to archipelago button
 @onready var archipelago: Button = $Start_Screen/Buttons/Archipelago
 
+# Settings popup
+@onready var settings_popup: Control = $"Home/Options/Popup"
+
 # Advanced settings objects
-@onready var advanced_settings: Button = $"Home/Advanced Settings/Advanced Settings"
-@onready var settings_popup: Control = $"Home/Advanced Settings/Popup"
-@onready var size_input: LineEdit = $"Home/Advanced Settings/Popup/Size/Size Input"
-@onready var toggle_override: CheckButton = $"Home/Advanced Settings/Popup/Size/Toggle Override"
-@onready var piece_label: Label = $"Home/Advanced Settings/Popup/Piece/Piece Label"
-@onready var piece_slider: HSlider = $"Home/Advanced Settings/Popup/Piece/Piece Slider"
-@onready var sticker_label: Label = $"Home/Advanced Settings/Popup/Sticker/Sticker Label"
-@onready var sticker_slider: HSlider = $"Home/Advanced Settings/Popup/Sticker/Sticker Slider"
+@onready var advanced_settings: Button = $"Home/Options/Popup/Advanced Settings/Advanced Settings"
+@onready var advanced_settings_popup: Control = $"Home/Options/Popup/Advanced Settings/Popup"
+@onready var size_input: LineEdit = $"Home/Options/Popup/Advanced Settings/Popup/Size/Size Input"
+@onready var toggle_override: CheckButton = $"Home/Options/Popup/Advanced Settings/Popup/Size/Toggle Override"
+@onready var piece_label: Label = $"Home/Options/Popup/Advanced Settings/Popup/Piece/Piece Label"
+@onready var piece_slider: HSlider = $"Home/Options/Popup/Advanced Settings/Popup/Piece/Piece Slider"
+@onready var sticker_label: Label = $"Home/Options/Popup/Advanced Settings/Popup/Sticker/Sticker Label"
+@onready var sticker_slider: HSlider = $"Home/Options/Popup/Advanced Settings/Popup/Sticker/Sticker Slider"
 
 # Size editor
 @onready var size_label: Label = $"Home/Size/Size Label"
@@ -91,6 +94,7 @@ func _ready() -> void:
 	
 	popup.visible = false
 	settings_popup.visible = false
+	advanced_settings_popup.visible = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -162,6 +166,14 @@ func _on_archipelago_pressed() -> void:
 
 ### OPTION SETTINGS ###
 
+# Opens additional options menu
+func _on_settings_pressed() -> void:
+	settings_popup.visible = true
+
+# Closes additional options menu
+func _on_settings_close_pressed() -> void:
+	settings_popup.visible = false
+
 # Shows slider value
 # Can also be used to disable puzzle types based on value
 func _on_size_scroll_bar_value_changed(value: float) -> void:
@@ -197,11 +209,11 @@ func _on_color_options_item_selected(index: int) -> void:
 
 # Opens a popup to edit advanced settings
 func _on_advanced_settings_pressed() -> void:
-	settings_popup.visible = true
+	advanced_settings_popup.visible = true
 
 # Closes the advanced settings menu
-func _on_close_pressed() -> void:
-	settings_popup.visible = false
+func _on_advanced_close_pressed() -> void:
+	advanced_settings_popup.visible = false
 	
 	if use_size_override and str(size_override) != size_input.text:
 		if is_int(size_input.text):

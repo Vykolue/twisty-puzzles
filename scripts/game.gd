@@ -43,11 +43,11 @@ func _ready() -> void:
 	# Define ui pages
 	pages = ui.get_children()
 	
-	start_screen = pages[0]
-	home_page = pages[1]
-	archipelago_page = pages[2]
-	game_page = pages[3]
-	back_button = pages[4]
+	back_button = pages[0]
+	start_screen = pages[1]
+	home_page = pages[2]
+	archipelago_page = pages[3]
+	game_page = pages[4]
 	
 	var ap_pages = archipelago_page.get_children()
 	connection_page = ap_pages[0]
