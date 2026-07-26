@@ -14,7 +14,12 @@ func _process(_delta: float) -> void:
 ### MAIN FUNCTIONS ###
 
 func retrieve_mesh_data(mesh_type):
-	return {}
+	if mesh_type == "plastic":
+		return plastic_data
+	elif mesh_type == "stickers":
+		return sticker_data
+	else:
+		return {}
 
 ### HELPER FUNCTIONS ###
 

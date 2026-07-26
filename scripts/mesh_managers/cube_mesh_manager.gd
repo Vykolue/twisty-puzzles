@@ -25,28 +25,6 @@ func _process(_delta: float) -> void:
 ### MAIN FUNCTIONS ###
 
 func retrieve_mesh_data(mesh_type):
-	# mesh data
-	var outer_plastic_data = faces.duplicate(true)
-	var inner_plastic_data = faces.duplicate(true)
-	var sticker_data = faces.duplicate(true)
-	
-	# piece ids
-	var outer_plastic_ids = []
-	var inner_plastic_ids = []
-	var sticker_ids = []
-	
-	# scales the puzzle based on size while remaining centered on the origin
-	var scale_by_size = 0.5 * size
-	
-	# scale the pieces so there is a gap between
-	var adjustment = (1.0 - piece_scale) / 2.0
-	var corner_scale = (scale_by_size - adjustment) / scale_by_size
-	
-	# scale the stickers to not take up the entire surface
-	# value should be less than piece_scale
-	var s_adjustment = (1.0 - sticker_scale) / 2.0
-	var s_corner_scale = (scale_by_size - s_adjustment) / scale_by_size
-	
 	# builds the data face by face
 	for face in faces:
 		outer_plastic_data[face]["triangles"] = []
@@ -179,15 +157,15 @@ func retrieve_mesh_data(mesh_type):
 					inner_plastic_ids.append(face[0] + str(j) + d1 + str(indices[i][0]) + d2 + str(indices[i][1]))
 	
 	#var outer_i = outer_plastic_ids.duplicate(true)
-	outer_plastic_ids = get_piece_ids(outer_plastic_ids)
+	var new_outer_plastic_ids = get_piece_ids(outer_plastic_ids)
 	#var inner_i = inner_plastic_ids.duplicate(true)
-	inner_plastic_ids = get_piece_ids(inner_plastic_ids)
+	var new_inner_plastic_ids = get_piece_ids(inner_plastic_ids)
 	#var sticker_i = sticker_ids.duplicate(true)
-	sticker_ids = get_piece_ids(sticker_ids)
+	var new_sticker_ids = get_piece_ids(sticker_ids)
 	
 	# merges outer_plastic_data and inner_plastic_data into a single dataset
 	# preserves color values for outer plastic
-	var plastic_data = outer_plastic_data
+	plastic_data = outer_plastic_data
 	for face in inner_plastic_data:
 		plastic_data["inner " + face] = {
 			"color": "plastic",
@@ -202,39 +180,18 @@ func retrieve_mesh_data(mesh_type):
 	# to match the new plastic_data
 	# sets the face value of inner plastic to "p" for plastic 
 	# as this color will never need to be changed
-	var plastic_ids = []
-	for arr in outer_plastic_ids:
+	plastic_ids = []
+	for arr in new_outer_plastic_ids:
 		plastic_ids.append(arr)
 	
-	for arr in inner_plastic_ids:
+	for arr in new_inner_plastic_ids:
 		var id = arr[0]
 		var face = "p"
 		var new_arr = [id, face]
 		plastic_ids.append(new_arr)
 	
-	'''
-	# debugging
-	var c = 0
-	for face in plastic_data:
-		var inn = "inner" in face
-		for triangle in plastic_data[face]["triangles"]:
-			if c < 50:
-				#print(triangle)
-				var readable = triangle_to_readable(triangle)
-				#print(readable)
-				var new_id = guess_id(readable)
-				print(str(new_id))
-				#if inn: print(inner_i[c-len(outer_i)])
-				#else: print(outer_i[c])
-				print(plastic_ids[c])
-				print()
-			c += 1
-	
-	print_directional_consts()
-	'''
-	
 	id_dict_plastic = reformat_ids(plastic_ids)
-	id_dict_stickers = reformat_ids(sticker_ids)
+	id_dict_stickers = reformat_ids(new_sticker_ids)
 	
 	# generates the meshes
 	# can also specify whether the mesh is hidden
@@ -291,6 +248,10 @@ func get_piece_ids(ids):
 
 # Sets the scale_by_size and scale_by_piece_type
 func set_scales():
+	outer_plastic_data = faces.duplicate(true)
+	inner_plastic_data = faces.duplicate(true)
+	sticker_data = faces.duplicate(true)
+	
 	scale_by_size = 0.5 * size
 	scale_by_piece_type = [1]
 	

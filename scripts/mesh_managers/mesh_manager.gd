@@ -2,34 +2,37 @@
 class_name MeshManager
 
 # puzzle variables
-var size
-var style
-var faces
-var colors
-var color_map
+var size: int
+var style: String
+var faces: Dictionary[String, Variant]
+var colors: Dictionary[String, Color]
+var color_map: Dictionary[String, String]
 
-var piece_scale
-var sticker_scale
+# scaling variables
+var piece_scale: float
+var sticker_scale: float
 
-var sticker_float
-
-var plastic_mesh_data
-var sticker_mesh_data
-
-var plastic_mesh
-var sticker_mesh
+var sticker_float: float
 
 # mesh data
-var outer_plastic_data
-var inner_plastic_data
-var sticker_data
+var plastic_mesh_data: Array[Variant]
+var sticker_mesh_data: Array[Variant]
+
+var plastic_mesh: MeshInstance3D
+var sticker_mesh: MeshInstance3D
+
+var outer_plastic_data: Dictionary[String, Variant]
+var inner_plastic_data: Dictionary[String, Variant]
+var plastic_data: Dictionary[String, Variant]
+var sticker_data: Dictionary[String, Variant]
 
 # piece ids
-var id_dict_plastic
-var id_dict_stickers
+var id_dict_plastic: Dictionary[String, Variant]
+var id_dict_stickers: Dictionary[String, Variant]
 
 var outer_plastic_ids = []
 var inner_plastic_ids = []
+var plastic_ids = []
 var sticker_ids = []
 
 # scales the puzzle based on size while remaining centered on the origin

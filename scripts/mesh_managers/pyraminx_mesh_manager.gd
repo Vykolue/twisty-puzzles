@@ -36,33 +36,6 @@ func _process(_delta: float) -> void:
 ### MAIN FUNCTIONS ###
 
 func retrieve_mesh_data(mesh_type):
-	# mesh data
-	var outer_plastic_data = faces.duplicate(true)
-	var inner_plastic_data = faces.duplicate(true)
-	var sticker_data = faces.duplicate(true)
-	
-	# piece ids
-	var outer_plastic_ids = []
-	var inner_plastic_ids = []
-	var sticker_ids = []
-	
-	# scale the pieces so there is a gap between
-	#var piece_scale = 0.95
-	var adjustment = (1.0 - piece_scale) / 2.0
-	var adj_scaled_back = adjustment / (tan(acos(sqrt(3.0) / 3.0)))
-	var adj_scaled_down = adjustment / (sin(acos(sqrt(3.0) / 3.0)))
-	#var adj_vector = Vector3(0.0, -adjustment, 0.0)
-	#var corner_scale = (size - adjustment) / size
-	
-	# scale the stickers to not take up the entire surface
-	# value should be less than piece_scale
-	#var sticker_scale = 0.90
-	var s_adjustment = (1.0 - sticker_scale) / 2.0
-	var s_adj_scaled_back = s_adjustment / (tan(acos(sqrt(3.0) / 3.0)))
-	var s_adj_scaled_down = s_adjustment / (sin(acos(sqrt(3.0) / 3.0)))
-	#var s_adj_vector = Vector3(0.0, -s_adjustment, 0.0)
-	#var s_corner_scale = (size - s_adjustment) / size
-	
 	# builds the data face by face
 	for face in faces:
 		outer_plastic_data[face]["triangles"] = []
@@ -227,7 +200,7 @@ func retrieve_mesh_data(mesh_type):
 	
 	# merges outer_plastic_data and inner_plastic_data into a single dataset
 	# preserves color values for outer plastic
-	var plastic_data = outer_plastic_data
+	plastic_data = outer_plastic_data
 	for face in inner_plastic_data:
 		plastic_data["inner " + face] = {
 			"color": "plastic",
@@ -322,6 +295,10 @@ func match_vectors_by_face(face):
 
 # Sets the scale_by_size and scale_by_piece_type
 func set_scales():
+	outer_plastic_data = faces.duplicate(true)
+	inner_plastic_data = faces.duplicate(true)
+	sticker_data = faces.duplicate(true)
+	
 	scale_by_size = size
 	scale_by_piece_type = [1.635, 1.88]
 	
