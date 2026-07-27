@@ -1,32 +1,52 @@
 extends MeshManager
 class_name MegaminxMeshManager
 
-### DEFAULT FUNCTIONS ###
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta: float) -> void:
-	pass
-
 ### MAIN FUNCTIONS ###
 
-func retrieve_mesh_data(mesh_type):
-	if mesh_type == "plastic":
-		return plastic_data
-	elif mesh_type == "stickers":
-		return sticker_data
-	else:
-		return {}
+# Builds one face of the mesh
+func build_face(mesh_type: String, vectors: Array[Vector3]) -> void:
+	pass
 
 ### HELPER FUNCTIONS ###
 
-func get_piece_ids(ids):
-	return ids
+# defines all variables specific to the puzzle type
+func define_variables() -> void:
+	piece_shapes = []
 
-# Sets the scale_by_size and scale_by_piece_type
-func set_scales():
-	scale_by_size = size
-	scale_by_piece_type = [1]
+# Gets a list of helper vectors for building the given face
+func get_helper_vectors(face: String) -> Array[Vector3]:
+	var arr: Array[Vector3] = []
+	var new_arr: Array[Vector3] = []
+	
+	for key in faces:
+		arr.append(faces[face]["normal"])
+	
+	for vector in arr:
+		match face:
+			"up":
+				new_arr.append(vector.rotated(faces["left"]["normal"], deg_to_rad(72)))
+			"down":
+				new_arr.append(vector.rotated(faces["left_down"]["normal"], deg_to_rad(-144)))
+			"left":
+				new_arr.append(vector.rotated(faces["up"]["normal"], deg_to_rad(-72)))
+			"back_right":
+				new_arr.append(vector.rotated(faces["right"]["normal"], deg_to_rad(144)))
+			"right":
+				new_arr.append(vector.rotated(faces["up"]["normal"], deg_to_rad(72)))
+			"back_left":
+				new_arr.append(vector.rotated(faces["left"]["normal"], deg_to_rad(-144)))
+			"front":
+				new_arr.append(vector)
+			"back":
+				var new_vector = vector.rotated(faces["left_down"]["normal"], deg_to_rad(-72))
+				new_arr.append(new_vector.rotated(faces["down"]["normal"], deg_to_rad(-144)))
+			"left_down":
+				new_arr.append(vector.rotated(faces["left"]["normal"], deg_to_rad(-72)))
+			"back_up_right":
+				new_arr.append(vector.rotated(faces["up"]["normal"], deg_to_rad(144)))
+			"right_down":
+				new_arr.append(vector.rotated(faces["right"]["normal"], deg_to_rad(72)))
+			"back_up_left":
+				new_arr.append(vector.rotated(faces["up"]["normal"], deg_to_rad(-144)))
+	
+	return new_arr

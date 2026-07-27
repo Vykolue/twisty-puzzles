@@ -90,7 +90,7 @@ func _ready() -> void:
 	piece_label.text = "Piece Scale: " + str("%.2f" % default_piece_scale)
 	sticker_label.text = "Sticker Scale: " + str("%.2f" % default_sticker_scale)
 	
-	megaminx.disabled = true
+	#megaminx.disabled = true
 	
 	popup.visible = false
 	settings_popup.visible = false
