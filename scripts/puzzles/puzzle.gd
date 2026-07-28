@@ -44,8 +44,14 @@ var id_dict_stickers: Dictionary[String, Variant]
 	"green": Color(0.0, 0.76, 0.241, 1.0), 
 	"white": Color(1.0, 1.0, 1.0, 1.0), 
 	"yellow": Color(1.0, 1.0, 0.20, 1.0),
+	"grey": Color(0.314, 0.314, 0.314, 1.0),
+	"tan": Color(0.86, 0.81, 0.645, 1.0),
+	"lime": Color(0.26, 1.0, 0.26, 1.0),
+	"purple": Color(0.492, 0.174, 0.79, 1.0),
+	"pink": Color(1.0, 0.52, 0.616, 1.0),
+	"sky_blue": Color(0.373, 0.488, 0.83, 1.0),
 	"plastic": Color(0.73, 0.73, 0.73, 1.0),
-	"unrevealed": Color(0.3, 0.0, 0.8, 1.0)
+	"unrevealed": Color(0.14, 0.14, 0.14, 1.0)
 }
 
 # Stores the color values associated with each color scheme
@@ -59,6 +65,12 @@ var color_map: Dictionary[String, String] = {
 	"green": "green",
 	"white": "white",
 	"yellow": "yellow",
+	"grey": "grey",
+	"tan": "tan",
+	"lime": "lime",
+	"purple": "purple",
+	"pink": "pink",
+	"sky_blue": "sky_blue",
 	"plastic": "plastic",
 	"unrevealed": "unrevealed"
 }

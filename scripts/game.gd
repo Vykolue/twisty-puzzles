@@ -93,8 +93,15 @@ func start_solo_game(args: Dictionary[String, Variant]) -> void:
 	
 	# Starts a megaminx puzzle
 	if args["type"] == "megaminx":
+		var new_size = args["size"] - (args["size"] % 2)
+		camera.global_position = Vector3(new_size * 5.25, new_size * 5.25, new_size * 5.25)
+		camera.global_rotation = Vector3(deg_to_rad(-35.3), deg_to_rad(45.0), 0.0)
 		puzzle = MEGAMINX.instantiate().construct(args)
+		#var node = Node3D.new()
+		#add_child(node)
+		#node.add_child(puzzle)
 		add_child(puzzle)
+		puzzle.global_rotation = Vector3(deg_to_rad(-45), deg_to_rad(0), deg_to_rad(15))
 
 # Starts an archipelago game with the given arguments
 func start_ap_game(args: Dictionary[String, Variant]) -> void:

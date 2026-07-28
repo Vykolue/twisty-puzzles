@@ -63,7 +63,7 @@ func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_d
 			
 			var indices_to_add = []
 			if mesh_type == "plastic":
-				for slice in range(0, size):
+				for slice in size:
 					var new_p1 = p1 + (v6 * slice)
 					var new_p2 = p2 + (v6 * slice)
 					var new_p3 = p3 + (v6 * slice)
