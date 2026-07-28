@@ -4,12 +4,12 @@ class_name PyraminxMeshManager
 ### MAIN FUNCTIONS ###
 
 # Builds one face of the mesh
-func build_face(mesh_type: String, vectors: Array[Vector3]) -> void:
+func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_data: Array[Variant]) -> void:
 	pass
 
 ### HELPER FUNCTIONS ###
 
-# defines all variables specific to the puzzle type
+# Defines all variables specific to the puzzle type
 func define_variables() -> void:
 	piece_shapes = ["tetrahedron", "octahedron"]
 
@@ -19,7 +19,7 @@ func get_helper_vectors(face: String) -> Array[Vector3]:
 	var new_arr: Array[Vector3] = []
 	
 	for key in faces:
-		arr.append(faces[face]["normal"])
+		arr.append(faces[key]["normal"])
 	
 	for vector in arr:
 		match face:
@@ -33,3 +33,6 @@ func get_helper_vectors(face: String) -> Array[Vector3]:
 				new_arr.append(vector)
 	
 	return new_arr
+
+func get_id(point: Vector3) -> String:
+	return ""
