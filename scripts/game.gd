@@ -101,7 +101,8 @@ func start_solo_game(args: Dictionary[String, Variant]) -> void:
 		#add_child(node)
 		#node.add_child(puzzle)
 		add_child(puzzle)
-		puzzle.global_rotation = Vector3(deg_to_rad(-45), deg_to_rad(0), deg_to_rad(15))
+		#puzzle.global_rotation = Vector3(deg_to_rad(-45), deg_to_rad(0), deg_to_rad(15))
+		puzzle.global_rotation = Vector3(deg_to_rad(-30), deg_to_rad(10), deg_to_rad(0))
 
 # Starts an archipelago game with the given arguments
 func start_ap_game(args: Dictionary[String, Variant]) -> void:
