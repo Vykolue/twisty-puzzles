@@ -126,7 +126,7 @@ func get_helper_vectors(face: String) -> Array[Vector3]:
 
 # Gets a list of where each face is relative to the current face
 func switch_faces(face: String) -> Array[String]:
-	var relative_faces = ["up", "down", "left", "right", "front", "back"]
+	var relative_faces: Array[String] = ["up", "down", "left", "right", "front", "back"]
 	match face:
 		"up":
 			relative_faces = ["back", "front", "left", "right", "up", "down"]
