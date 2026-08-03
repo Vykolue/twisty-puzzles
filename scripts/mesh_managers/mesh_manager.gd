@@ -61,7 +61,8 @@ func generate_meshes(mesh_type: String, hide_mesh: bool) -> MeshInstance3D:
 	
 	for face in faces:
 		var vectors = get_helper_vectors(face)
-		build_face(mesh_type, vectors, face, mesh_data)
+		var relative_faces = switch_faces(face)
+		build_face(mesh_type, vectors, relative_faces, mesh_data)
 	
 	var mat = StandardMaterial3D.new()
 	
@@ -76,7 +77,7 @@ func generate_meshes(mesh_type: String, hide_mesh: bool) -> MeshInstance3D:
 	return mesh_instance
 
 # Builds one face of the mesh
-@abstract func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_data: Array[Variant]) -> void
+@abstract func build_face(mesh_type: String, vectors: Array[Vector3], relative_faces: Array[String], mesh_data: Array[Variant]) -> void
 
 ### HELPER FUNCTIONS ###
 
@@ -85,5 +86,8 @@ func generate_meshes(mesh_type: String, hide_mesh: bool) -> MeshInstance3D:
 
 # Gets a list of helper vectors for building the given face
 @abstract func get_helper_vectors(face: String) -> Array[Vector3]
+
+# Gets a list of where each face is relative to the current face
+@abstract func switch_faces(face: String) -> Array[String]
 
 @abstract func get_id(point: Vector3) -> String

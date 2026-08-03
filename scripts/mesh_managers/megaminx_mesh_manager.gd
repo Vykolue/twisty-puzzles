@@ -4,7 +4,7 @@ class_name MegaminxMeshManager
 ### MAIN FUNCTIONS ###
 
 # Builds one face of the mesh
-func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_data: Array[Variant]) -> void:
+func build_face(mesh_type: String, vectors: Array[Vector3], relative_faces: Array[String], mesh_data: Array[Variant]) -> void:
 	# vectors
 	var v1 = vectors[0] # up when working on the front side
 	var v2 = vectors[1] # down when working on the front side
@@ -18,6 +18,9 @@ func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_d
 	var v10 = vectors[9] # back_up_right when working on the front side
 	var v11 = vectors[10] # right_down when working on the front side
 	var v12 = vectors[11] # back_up_left when working on the front side
+	
+	# the name of the face currently being built
+	var face = relative_faces[6]
 	
 	# define vertices on the current face
 	var scale_vertices = 0.5
@@ -228,6 +231,73 @@ func get_helper_vectors(face: String) -> Array[Vector3]:
 				new_arr.append(vector.rotated(faces["up"]["normal"], deg_to_rad(-144)))
 	
 	return new_arr
+
+# Gets a list of where each face is relative to the current face
+func switch_faces(face: String) -> Array[String]:
+	var relative_faces = [
+		"up", "down", "left", "back_right", "right", "back_left", 
+		"front", "back", "left_down", "back_up_right", "right_down", "back_up_left"
+	]
+	match face:
+		"up":
+			relative_faces = [
+				"back_up_left", "right_down", "left", "back_right", "back_up_right", "left_down", 
+				"up", "down", "front", "back", "right", "back_left"
+			]
+		"down":
+			relative_faces = [
+				"back_right", "left", "right_down", "back_up_left", "back", "front", 
+				"down", "up", "left_down", "back_up_right", "back_left", "right"
+			]
+		"left":
+			relative_faces = [
+				"up", "down", "back_up_left", "right_down", "front", "back", 
+				"left", "back_right", "back_left", "right", "left_down", "back_up_right"
+			]
+		"back_right":
+			relative_faces = [
+				"right_down", "back_up_left", "down", "up", "right", "back_left", 
+				"back_right", "left", "back", "front", "back_up_right", "left_down"
+			]
+		"right":
+			relative_faces = [
+				"up", "down", "front", "back", "back_up_right", "left_down", 
+				"right", "back_left", "right_down", "back_up_left", "back_right", "left"
+			]
+		"back_left":
+			relative_faces = [
+				"left_down", "back_up_right", "left", "back_right", "down", "up", 
+				"back_left", "right", "back_up_left", "right_down", "back", "front"
+			]
+		"front":
+			pass
+		"back":
+			relative_faces = [
+				"back_up_left", "right_down", "back_up_right", "left_down", "back_left", "right", 
+				"back", "front", "back_right", "left", "down", "up"
+			]
+		"left_down":
+			relative_faces = [
+				"front", "back", "left", "back_right", "right_down", "back_up_left", 
+				"left_down", "back_up_right", "back_left", "right", "down", "up"
+			]
+		"back_up_right":
+			relative_faces = [
+				"up", "down", "right", "back_left", "back_up_left", "right_down", 
+				"back_up_right", "left_down", "back_right", "left", "back", "front"
+			]
+		"right_down":
+			relative_faces = [
+				"front", "back", "left_down", "back_up_right", "right", "back_left", 
+				"right_down", "back_up_left", "down", "up", "back_right", "left"
+			]
+		"back_up_left":
+			relative_faces = [
+				"up", "down", "back_up_right", "left_down", "left", "back_right", 
+				"back_up_left", "right_down", "back", "front", "back_left", "right"
+			]
+	
+	return relative_faces
 
 func get_id(point: Vector3) -> String:
 	return ""

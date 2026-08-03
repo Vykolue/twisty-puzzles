@@ -4,7 +4,7 @@ class_name CubeMeshManager
 ### MAIN FUNCTIONS ###
 
 # Builds one face of the mesh
-func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_data: Array[Variant]) -> void:
+func build_face(mesh_type: String, vectors: Array[Vector3], relative_faces: Array[String], mesh_data: Array[Variant]) -> void:
 	# vectors
 	var v1 = vectors[0] # up when working on the front side
 	var v2 = vectors[1] # down when working on the front side
@@ -12,6 +12,9 @@ func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_d
 	var v4 = vectors[3] # right when working on the front side
 	var v5 = vectors[4] # front when working on the front side
 	var v6 = vectors[5] # back when working on the front side
+	
+	# the name of the face currently being built
+	var face = relative_faces[4]
 	
 	var color = colors[color_map[faces[face]["color"]]]
 	var plastic_color = colors[color_map["plastic"]]
@@ -120,6 +123,25 @@ func get_helper_vectors(face: String) -> Array[Vector3]:
 				new_arr.append(vector.rotated(faces["up"]["normal"], deg_to_rad(180)))
 	
 	return new_arr
+
+# Gets a list of where each face is relative to the current face
+func switch_faces(face: String) -> Array[String]:
+	var relative_faces = ["up", "down", "left", "right", "front", "back"]
+	match face:
+		"up":
+			relative_faces = ["back", "front", "left", "right", "up", "down"]
+		"down":
+			relative_faces = ["front", "back", "left", "right", "down", "up"]
+		"left":
+			relative_faces = ["up", "down", "back", "front", "left", "right"]
+		"right":
+			relative_faces = ["up", "down", "front", "back", "right", "left"]
+		"front":
+			pass
+		"back":
+			relative_faces = ["up", "down", "right", "left", "back", "front"]
+	
+	return relative_faces
 
 func get_id(point: Vector3) -> String:
 	return ""

@@ -4,12 +4,15 @@ class_name PyraminxMeshManager
 ### MAIN FUNCTIONS ###
 
 # Builds one face of the mesh
-func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_data: Array[Variant]) -> void:
+func build_face(mesh_type: String, vectors: Array[Vector3], relative_faces: Array[String], mesh_data: Array[Variant]) -> void:
 	# vectors
 	var v1 = vectors[0] # front when working on the front side
 	var v2 = vectors[1] # left normal when working on the front side
 	var v3 = vectors[2] # right normal when working on the front side
 	var v4 = vectors[3] # down when working on the front side
+	
+	# the name of the face currently being built
+	var face = relative_faces[0]
 	
 	var color = colors[color_map[faces[face]["color"]]]
 	var plastic_color = colors[color_map["plastic"]]
@@ -151,6 +154,21 @@ func get_helper_vectors(face: String) -> Array[Vector3]:
 				new_arr.append(vector)
 	
 	return new_arr
+
+# Gets a list of where each face is relative to the current face
+func switch_faces(face: String) -> Array[String]:
+	var relative_faces = ["front", "left", "right", "down"]
+	match face:
+		"front":
+			pass
+		"left":
+			relative_faces = ["left", "right", "front", "down"]
+		"right":
+			relative_faces = ["right", "front", "left", "down"]
+		"down":
+			relative_faces = ["down", "left", "front", "right"]
+	
+	return relative_faces
 
 func get_id(point: Vector3) -> String:
 	return ""
