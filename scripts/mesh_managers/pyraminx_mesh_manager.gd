@@ -29,8 +29,9 @@ func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_d
 	# starting point
 	var corner = (-v4) * size
 	
-	var corner_adjustment = (-v4) * (1.0 - scale) / 2.0 # may need to use a combination of -v1, -v2, and -v3??
-	var scaled_corner = corner - corner_adjustment
+	var corner_adjustment_float = (1.0 - scale) / 2.0
+	var corner_adjustment_vector = (-v4) * corner_adjustment_float # may need to use a combination of -v1, -v2, and -v3??
+	var scaled_corner = corner - corner_adjustment_vector
 	
 	var index
 	if mesh_data[Mesh.ARRAY_VERTEX] == null:
@@ -83,7 +84,46 @@ func build_face(mesh_type: String, vectors: Array[Vector3], face: String, mesh_d
 					mesh_data[Mesh.ARRAY_COLOR].append(color)
 				id_dict[id][mesh_type].append(index)
 				index += 1
+			
+			# build octahedron pieces
+			var oct_norm = ((v3 + -v1) + (v4 + -v2)).normalized()
+			if col < row:
+				p1 = (corner - (corner_adjustment_float * oct_norm)) + (row * (v4 + -v3)) + (col * (v3 + -v2)) + sticker_shift
+				p2 = p1 + ((v3 + -v2) * scale)
+				p3 = p1 + ((v4 + -v2) * scale)
 				
+				id = get_id(p1)
+				if not id in id_dict:
+					id_dict[id] = {
+						"plastic": [],
+						"stickers": []
+					}
+				
+				indices_to_add = []
+				if mesh_type == "plastic":
+					for slice in size:
+						if row < size - slice:
+							var new_p1 = p1 + ((v4 + -v1) * slice)
+							var new_p2 = p2 + ((v4 + -v1) * slice)
+							var new_p3 = p3 + ((v4 + -v1) * slice)
+							
+							indices_to_add.append(new_p1)
+							indices_to_add.append(new_p2)
+							indices_to_add.append(new_p3)
+					
+				elif mesh_type == "stickers":
+					indices_to_add = [p1, p2, p3, p1, p3, p2]
+				
+				for c in range(0, len(indices_to_add)):
+					var i = indices_to_add[c]
+					mesh_data[Mesh.ARRAY_VERTEX].append(i)
+					mesh_data[Mesh.ARRAY_NORMAL].append(normal)
+					if mesh_type == "plastic" and (not style == "stickerless" or c > 2):
+						mesh_data[Mesh.ARRAY_COLOR].append(plastic_color)
+					else:
+						mesh_data[Mesh.ARRAY_COLOR].append(color)
+					id_dict[id][mesh_type].append(index)
+					index += 1
 
 ### HELPER FUNCTIONS ###
 
