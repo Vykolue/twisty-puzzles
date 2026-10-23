@@ -1,6 +1,6 @@
 extends Puzzle
 
-# face normals
+# Face normals
 const UP_NORMAL = Vector3(0.0, 1.0, 0.0)
 const DOWN_NORMAL = Vector3(0.0, -1.0, 0.0)
 const LEFT_NORMAL = Vector3(-1.0, 0.0, 0.0)
@@ -11,7 +11,7 @@ const BACK_NORMAL = Vector3(0.0, 0.0, -1.0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	# define variables
+	# all valid operations for this puzzle type
 	operations = ["up", "down", "left", "right", "front", "back"]
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -22,7 +22,7 @@ func _process(_delta: float) -> void:
 
 ### INSTANTIATION FUNCTIONS ###
 
-# randomizes the color layout
+# Randomizes the color layout
 func randomize_colors():
 	var new_colors = color_map.duplicate(true)
 	var options = ["red", "orange", "blue", "green", "white", "yellow"]
@@ -35,7 +35,7 @@ func randomize_colors():
 
 ### HELPER FUNCTIONS ###
 
-# assigns a dictionary to faces
+# Assigns a dictionary to faces
 func assign_faces():
 	var face_names = ["up", "down", "left", "right", "front", "back"]
 	var color_names = ["white", "yellow", "orange", "red", "green", "blue"]
@@ -45,7 +45,7 @@ func assign_faces():
 	for i in len(face_names):
 		faces[face_names[i]] = {"color": color_names[i], "normal": normals[i]}
 
-# gets the piece id of all triangles
+# Gets the piece id of all triangles
 # based on how far away it traveled from the given faces
 func get_piece_ids(ids):
 	var new_ids = []

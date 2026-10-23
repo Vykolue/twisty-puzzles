@@ -116,6 +116,7 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 	sticker_float = 0.01
 	args["sticker_float"] = sticker_float
 	
+	# Randomizes the color layout, if specified
 	if args["game_mode"] == "solo" and args["randomize_colors"]:
 		randomize_colors()
 	if args["game_mode"] == "ap":
@@ -124,8 +125,10 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 	color_map["plastic"] = "plastic"
 	color_map["unrevealed"] = "unrevealed"
 	
+	# Sets the color scheme
 	update_color_scheme(args["color_scheme"])
 	
+	# Sets the plastic color based on style
 	if style == "traditional":
 		colors[color_map["plastic"]] = Color(0.05, 0.05, 0.05, 1.0)
 	else:
@@ -137,6 +140,7 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 	args["colors"] = colors
 	args["color_map"] = color_map
 	
+	# Creates the meshes for the specified puzzle type
 	if args["type"] == "cube":
 		mesh_manager = CubeMeshManager.new(args)
 	if args["type"] == "pyraminx":
@@ -156,6 +160,9 @@ func construct(args: Dictionary[String, Variant]) -> Puzzle:
 ### INSTANTIATION FUNCTIONS ###
 
 # Assigns a dictionary to faces
+# Each face is a key and its value is another dictionary
+# which contains the color that normally corresponds to that face
+# and the normal vector of the face
 @abstract func assign_faces() -> void
 
 # Randomizes color layout
@@ -174,6 +181,7 @@ func print_directional_consts() -> void:
 	print("\"back\" (F face): " + str(Vector3.BACK))
 	print("\"forward\" (B face): " + str(Vector3.FORWARD))
 
+# updates colors with new hex values based on the specified color scheme
 func update_color_scheme(scheme: String) -> void:
 	var file = FileAccess.open(COLOR_SCHEME_JSON, FileAccess.READ)
 	var json_string = file.get_as_text()
@@ -208,6 +216,8 @@ func reformat_ids(ids) -> Dictionary[String, Variant]:
 	
 	return new_ids
 
+# listens for user inputs
+# this is currently only used for testing
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("Click"):
 		'''
